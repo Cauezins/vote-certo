@@ -1,76 +1,136 @@
-
 # Vote Certo
 
-![Vote Certo Logo](path/para/sua/logo.png)
+<img src="vote-certo\public\images\system\logo-white.png" alt="Laravel Logo" width="55"/>
 
-**Vote Certo** é um sistema desenvolvido em Laravel para a gestão de eleições internas, com o objetivo de facilitar a organização, votação e acompanhamento de processos eleitorais corporativos. O sistema conta com recursos modernos, incluindo o uso de Bootstrap para a interface e a robustez do Laravel para a lógica backend.
+Vote Certo é um sistema projetado para garantir uma eleição segura e confiável para diversas finalidades. Ele permite a gestão de votos, autenticação de usuários, e acompanhamento dos resultados de maneira eficiente. O sistema foi desenvolvido com Laravel, Bootstrap, jQuery, e JWT para garantir segurança e flexibilidade.
+
+---
 
 ## Tecnologias Utilizadas
+<img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo" width="40"/> <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo-shadow.png" alt="Bootstrap Logo" width="50"/>
+- **Laravel** - Um framework PHP robusto para desenvolvimento de aplicações web.
+  
+- **Bootstrap** - Framework CSS para construção de interfaces responsivas.
 
-![Laravel Logo](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![Bootstrap Logo](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+- **jQuery** - Biblioteca JavaScript para manipulação do DOM e AJAX.
 
-- **Laravel**: Framework PHP robusto para a construção de aplicações web.
-- **Bootstrap**: Framework CSS para o desenvolvimento de interfaces responsivas e modernas.
-- **MySQL**: Sistema de gerenciamento de banco de dados para armazenar informações das eleições.
+- **JWT (JSON Web Tokens)** - Utilizado para autenticação segura entre o cliente e o servidor.
 
-## Instalação e Uso
+---
 
-### Pré-requisitos
+## Funcionalidades Principais
 
-- PHP 8+
-- Composer
-- MySQL
-- Node.js (para gerenciamento de pacotes frontend)
+- Autenticação de usuários com JWT
+- Gestão de votos e candidatos
+- Relatórios de eleição em tempo real
+- Interface intuitiva e responsiva com Bootstrap
+- Uso de jQuery para manipulação do DOM e comunicação assíncrona
 
-### Passos de Instalação
+---
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/vote-certo.git
-   cd vote-certo
-   ```
+## Pré-requisitos
 
-2. Instale as dependências do backend com o Composer:
-   ```bash
-   composer install
-   ```
+Certifique-se de que você tem os seguintes requisitos instalados:
 
-3. Instale as dependências do frontend com o npm:
-   ```bash
-   npm install
-   npm run dev
-   ```
+- **PHP 8.x**
+- **Composer**
+- **Servidor MySQL**
+- **Node.js** (caso precise configurar jQuery ou outras dependências JavaScript)
 
-4. Crie um arquivo `.env` a partir do exemplo:
-   ```bash
-   cp .env.example .env
-   ```
+---
 
-5. Gere a chave da aplicação:
-   ```bash
-   php artisan key:generate
-   ```
+## Como Usar
 
-6. Configure o banco de dados no `.env` e execute as migrações:
-   ```bash
-   php artisan migrate
-   ```
+### Passo 1: Clonar o Repositório
 
-7. Inicie o servidor de desenvolvimento:
-   ```bash
-   php artisan serve
-   ```
+```bash
+git clone https://github.com/seu-usuario/vote-certo.git
+cd vote-certo
+```
 
-### Uso
+### Passo 2: Instalar Dependências PHP
 
-- Acesse o sistema em `http://127.0.0.1:8000`.
-- Cadastre-se como administrador e comece a gerenciar as eleições.
+```bash
+composer install
+```
+
+### Passo 3: Configurar o Arquivo `.env`
+
+Duplique o arquivo `.env.example` e renomeie para `.env`. Em seguida, configure as variáveis de ambiente como o banco de dados e o JWT.
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### Passo 4: Configurar Banco de Dados
+
+Configure as credenciais do banco de dados no arquivo `.env` e depois rode as migrações para criar as tabelas.
+
+```bash
+php artisan migrate
+```
+
+### Passo 5: Gerar Chave JWT
+
+Execute o seguinte comando para gerar a chave JWT que será usada para autenticação.
+
+```bash
+php artisan jwt:secret
+```
+
+### Passo 6: Executar o Servidor
+
+```bash
+php artisan serve
+```
+
+Agora, acesse o sistema no navegador em: `http://127.0.0.1:8000`.
+
+---
+
+## Autenticação JWT
+
+O sistema utiliza **JSON Web Tokens (JWT)** para autenticar e autorizar usuários. Isso garante que a comunicação entre o frontend e o backend seja segura. A chave secreta do JWT pode ser gerada e armazenada no arquivo `.env` conforme instruções anteriores.
+
+### Como Funciona
+
+- Ao fazer login, o sistema gera um token JWT e o envia ao cliente.
+- Esse token é necessário para acessar rotas protegidas.
+- O middleware valida o token antes de permitir o acesso.
+
+---
+
+## Comandos Úteis
+
+Aqui estão alguns comandos que podem ser úteis para o desenvolvimento e manutenção do sistema:
+
+### Limpar Cache
+
+```bash
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+```
+
+### Rodar as Migrações
+
+```bash
+php artisan migrate
+```
+### Popular o Banco de Dados (seeding)
+
+```bash
+php artisan db:seed
+```
+
+---
 
 ## Licença
 
-Este projeto está licenciado sob os termos da licença MIT.
+Este projeto é licenciado sob os termos da licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
 
-## Direitos Autorais
+---
 
-© 2024 Vote Certo. Todos os direitos reservados.
+**Desenvolvido com 💻 e ❤️ por Cauê Neves**
