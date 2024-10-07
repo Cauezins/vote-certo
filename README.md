@@ -129,7 +129,7 @@ php artisan db:seed
 
 ## Licença
 
-Este projeto é licenciado sob os termos da **Creative Commons Attribution**. Você pode modificar e redistribuir o projeto, desde que os devidos créditos sejam concedidos. Consulte o arquivo `LICENSE` para mais detalhes.
+Este projeto está licenciado sob a Licença Creative Commons Attribution-NoDerivatives (CC BY-ND). Consulte o arquivo LICENSE para mais detalhes.
 
 ---
 
