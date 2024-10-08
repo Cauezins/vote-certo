@@ -1,6 +1,6 @@
 # Vote Certo
 
-<img src="vote-certo/public/images/system/logo-animation-white.svg" alt="Laravel Logo" width="55"/>
+<img src="vote-certo/public/images/system/logo-white.svg" alt="Laravel Logo" width="55"/>
 
 Vote Certo é um sistema projetado para garantir uma eleição segura e confiável para diversas finalidades. Ele permite a gestão de votos, autenticação de usuários, e acompanhamento dos resultados de maneira eficiente. O sistema foi desenvolvido com Laravel, Bootstrap, jQuery, e JWT para garantir segurança e flexibilidade.
 
