@@ -1,41 +1,69 @@
-document.addEventListener("DOMContentLoaded", function (event) {
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-        e.preventDefault(); // Previne o envio padrão do formulário
+$("#login-form").on("submit", (e) => {
+    e.preventDefault(); // Previne o envio padrão do formulário
 
-        const email = e.target.elements.email.value;
-        const password = e.target.elements.password.value;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const submitBtn = $("#buttonSubmit");
+    const originalText = submitBtn.html(); // Armazena o texto original do botão
 
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken // Incluindo o token CSRF no cabeçalho
-                },
-                body: JSON.stringify({ email: email, password: password })
-            });
+    // Bloquear o botão de submit e adicionar o spinner
+    submitBtn.attr("disabled", true);
+    submitBtn.html(`
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    `);
 
-            const data = await response.json();
+    const formData = new FormData(document.getElementById("login-form"));
+    const csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
 
-            if (data.access_token) {
-                const now = new Date();
-                const expires = new Date(now.getTime() + 60 * 60 * 1000).toUTCString(); // Cookie válido por 1 hora
+    $.ajax({
+        method: "POST",
+        url: "/api/login",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken, // Incluindo o token CSRF no cabeçalho
+        },
+        data: formData, // Enviando o FormData
+        processData: false, // Não processar os dados automaticamente
+        contentType: false, // Deixar o jQuery definir o Content-Type corretamente
+        success: (response) => {
+            // Expira em 1 hora
+            const expires = 1 / 24;
 
-                // Armazena o token JWT e o ID do usuário em cookies
-                document.cookie = `jwt_token=${data.access_token}; path=/; expires=${expires};`; // sem HttpOnly
-                document.cookie = `user_id=${data.user_id}; path=/; expires=${expires};`;
+            // Armazena o token JWT e o ID do usuário em cookies
+            $.cookie('jwt_token', response.access_token, { expires: expires });
+            $.cookie('user_id', response.user_id, { expires: expires });
 
 
-                console.log(document.cookie);
-                alert('Logado com sucesso!');
-                window.location.href = '/admin';  // Redireciona o usuário para a página de admin
-            } else {
-                alert('Falha no login');
-            }
-        } catch (error) {
-            console.error('Erro ao fazer login:', error);
-            alert('Ocorreu um erro ao tentar fazer login');
-        }
+            showStatusMessage(
+                "success",
+                "Login bem-sucedido! Redirecionando..."
+            );
+            // Exemplo de redirecionamento após login bem-sucedido
+            setTimeout(() => {
+                window.location.href = "/admin";
+            }, 2000);
+        },
+        error: (error) => {
+            showStatusMessage(
+                "danger",
+                "Erro ao fazer login. Verifique suas credenciais."
+            );
+        },
+        complete: () => {
+            // Habilitar o botão novamente e restaurar o texto original
+            submitBtn.attr("disabled", false).html(originalText);
+        },
     });
 });
+
+function showStatusMessage(type, message) {
+    const msgState = $("#msgState");
+    const msgContent = $("#msgContent");
+
+    msgContent.removeClass().addClass(`alert alert-${type}`).html(message);
+
+    msgState.fadeIn(300);
+
+    setTimeout(() => {
+        msgState.fadeOut(300);
+    }, 5000);
+}

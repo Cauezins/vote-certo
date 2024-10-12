@@ -188,7 +188,7 @@
                       <i class="ti ti-list-check fs-6"></i>
                       <p class="mb-0 fs-3">My Task</p>
                     </a>
-                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                    <a onclick="logout()" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                   </div>
                 </div>
               </li>
@@ -455,12 +455,14 @@
       </div>
     </div>
     <script src="{{asset('vendor/jquery/dist/jquery.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="{{asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('vendor/apexcharts/dist/apexcharts.min.js')}}"></script>
     <script src="{{asset('vendor/simplebar/dist/simplebar.js')}}"></script>
     <script src="{{asset('js/admin/sidebarmenu.js')}}"></script>
     <script src="{{asset('js/admin/app.min.js')}}"></script>
-    <script src="{{asset('js/admin//dashboard.js')}}"></script>
+    <script src="{{asset('js/admin/dashboard.js')}}"></script>
+    <script src="{{asset('js/admin/admin.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 
   </body>
