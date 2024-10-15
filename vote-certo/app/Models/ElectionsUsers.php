@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coligada extends Model
+class ElectionsUsers extends Model
 {
     use HasFactory;
 
     // Permitir que os seguintes campos sejam preenchíveis
-    protected $fillable = ['name', 'status', 'id_resp'];
+    protected $fillable = ['name', 'email', 'cpf', 'nascimento', 'id_coligada'];
 }

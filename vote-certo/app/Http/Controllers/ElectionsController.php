@@ -2,26 +2,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Elections;
 
-class UserController{
+class ElectionsController{
     public function index(){
-        return User::all();
+        return Elections::all();
     }
 
     /**
      * @OA\Post(
-     *     path="/api/user",
-     *     summary="Criar novo usuario",
-     *     tags={"User"},
+     *     path="/api/coligada",
+     *     summary="Criar uma nova Coligada",
+     *     tags={"Coligada"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="cpf", type="string"),
-     *             @OA\Property(property="nascimento", type="string"),
-     *             @OA\Property(property="id_coligada", type="int")
+     *             @OA\Property(property="status", type="int"),
+     *             @OA\Property(property="id_resp", type="int")
      *         )
      *     ),
      *     @OA\Response(
@@ -38,27 +36,25 @@ class UserController{
     public function store(Request $request){
         $validadeData = $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|max:255',
-            'cpf' => 'required|max:255',
-            'nascimento' => 'required|max:255',
-            'id_coligada' => 'required|max:255',
+            'status' => 'required|max:255',
+            'id_resp' => 'required|max:255',
         ]);
 
-        $item = User::create($validadeData);
+        $item = Elections::create($validadeData);
 
         return response()->json($item, 201);
     }
 
     /**
      * @OA\Put(
-     *     path="/api/user/{id}",
-     *     summary="Atualiza um user existente",
+     *     path="/api/coligada/{id}",
+     *     summary="Atualiza uma coligada existente",
      *     description="Atualiza os dados de uma coligada pelo ID.",
-     *     tags={"User"},
+     *     tags={"Coligada"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID do User a ser atualizado",
+     *         description="ID da coligada a ser atualizado",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -67,27 +63,25 @@ class UserController{
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="cpf", type="string"),
-     *             @OA\Property(property="nascimento", type="string"),
-     *             @OA\Property(property="id_coligada", type="int")
+     *             required={"name", "status", "id_resp"},
+     *             @OA\Property(property="name", type="string", example="cipa_1234"),
+     *             @OA\Property(property="status", type="integer", nullable=false, example=0),
+     *             @OA\Property(property="id_resp", type="integer", nullable=false, example=0)
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Dados da coligada atualizados com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="cpf", type="string"),
-     *             @OA\Property(property="nascimento", type="string"),
-     *             @OA\Property(property="id_coligada", type="int")
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="status", type="integer", nullable=false, example=0),
+     *             @OA\Property(property="id_resp", type="integer", nullable=false, example=0)
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="User não encontrado",
+     *         description="Coligada não encontrado",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Item not found")
      *         )
@@ -104,15 +98,13 @@ class UserController{
 
      public function update(Request $request, $id)
      {
-         $item = User::find($id);
+         $item = Elections::find($id);
 
          if ($item) {
              $validatedData = $request->validate([
                 'name' => 'required|max:255',
-                'email' => 'required|max:255',
-                'cpf' => 'required|max:255',
-                'nascimento' => 'required|max:255',
-                'id_coligada' => 'required|max:255',
+                'status' => 'required|max:255',
+                'id_resp' => 'required|max:255',
             ]);
 
              $item->update($validatedData);
@@ -125,10 +117,10 @@ class UserController{
 
      /**
      * @OA\Delete(
-     *     path="/api/user/{id}",
+     *     path="/api/coligada/{id}",
      *     summary="Remove uma Coligada existente",
      *     description="Remove uma Coligada pelo ID.",
-     *     tags={"User"},
+     *     tags={"Coligada"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -161,7 +153,7 @@ class UserController{
 
     public function destroy($id)
     {
-        $item = User::find($id);
+        $item = Elections::find($id);
 
         if ($item) {
             $item->delete();

@@ -5,13 +5,13 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/admin": {
+        "/api/coligada": {
             "post": {
                 "tags": [
-                    "Admin"
+                    "Coligada"
                 ],
-                "summary": "Criar um novo item",
-                "operationId": "8405ee30d2a8cacc8f0356194fb256ef",
+                "summary": "Criar uma nova Coligada",
+                "operationId": "e2ad5a86787e1739e7d2f5df09f18c84",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -21,17 +21,430 @@
                                     "name": {
                                         "type": "string"
                                     },
+                                    "status": {
+                                        "type": "integer"
+                                    },
+                                    "id_resp": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item criado com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                }
+            }
+        },
+        "/api/coligada/{id}": {
+            "put": {
+                "tags": [
+                    "Coligada"
+                ],
+                "summary": "Atualiza uma coligada existente",
+                "description": "Atualiza os dados de uma coligada pelo ID.",
+                "operationId": "eeab9b6fa5a53361eb94275ce85d364c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da coligada a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "status",
+                                    "id_resp"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "cipa_1234"
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 0,
+                                        "nullable": false
+                                    },
+                                    "id_resp": {
+                                        "type": "integer",
+                                        "example": 0,
+                                        "nullable": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dados da coligada atualizados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 0,
+                                            "nullable": false
+                                        },
+                                        "id_resp": {
+                                            "type": "integer",
+                                            "example": 0,
+                                            "nullable": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coligada não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Coligada"
+                ],
+                "summary": "Remove uma Coligada existente",
+                "description": "Remove uma Coligada pelo ID.",
+                "operationId": "7ec81bcc37b58dcde5fa3e3c95f658bb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da coligada a ser removido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Coligada removido com sucesso."
+                    },
+                    "404": {
+                        "description": "Coligada não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Administrador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ID inválido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Criar novo usuario",
+                "operationId": "0e6658d61674de134d41dad936a1dd05",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "cpf": {
+                                        "type": "string"
+                                    },
+                                    "nascimento": {
+                                        "type": "string"
+                                    },
                                     "id_coligada": {
                                         "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item criado com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Atualiza um user existente",
+                "description": "Atualiza os dados de uma coligada pelo ID.",
+                "operationId": "507fba454f91b1c6f32f943805a5f6f0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do User a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "cpf": {
+                                        "type": "string"
+                                    },
+                                    "nascimento": {
+                                        "type": "string"
+                                    },
+                                    "id_coligada": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dados da coligada atualizados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "cpf": {
+                                            "type": "string"
+                                        },
+                                        "nascimento": {
+                                            "type": "string"
+                                        },
+                                        "id_coligada": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Remove uma Coligada existente",
+                "description": "Remove uma Coligada pelo ID.",
+                "operationId": "6ae05ff2bbd460bbc8539d894966a3db",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da coligada a ser removido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Coligada removido com sucesso."
+                    },
+                    "404": {
+                        "description": "Coligada não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Administrador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ID inválido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Criar um novo item",
+                "operationId": "4539a5a04b3bae7c633640656fb1ba3d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
                                     },
                                     "email": {
                                         "type": "string"
                                     },
                                     "password": {
                                         "type": "string"
-                                    },
-                                    "cargo": {
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -238,7 +651,7 @@
                     "Admin"
                 ],
                 "summary": "Logar no sistema",
-                "operationId": "f3dc2e45e5fc2ee472d07f01f529af03",
+                "operationId": "99bf870e883b183fc30d26360efeeb52",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -269,432 +682,9 @@
                     }
                 }
             }
-        },
-        "/api/coligada": {
-            "post": {
-                "tags": [
-                    "Coligada"
-                ],
-                "summary": "Criar uma nova Coligada",
-                "operationId": "3b6ef78b8fd468952b96d8b7dd5c49b7",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "status": {
-                                        "type": "integer"
-                                    },
-                                    "id_resp": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Item criado com sucesso"
-                    },
-                    "400": {
-                        "description": "Erro na requisição"
-                    }
-                }
-            }
-        },
-        "/api/coligada/{id}": {
-            "put": {
-                "tags": [
-                    "Coligada"
-                ],
-                "summary": "Atualiza uma coligada existente",
-                "description": "Atualiza os dados de uma coligada pelo ID.",
-                "operationId": "6c11662e18aa2ff602c432c6eba9611f",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID da coligada a ser atualizado",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "status",
-                                    "id_resp"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "cipa_1234"
-                                    },
-                                    "status": {
-                                        "type": "integer",
-                                        "example": 0,
-                                        "nullable": false
-                                    },
-                                    "id_resp": {
-                                        "type": "integer",
-                                        "example": 0,
-                                        "nullable": false
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Dados da coligada atualizados com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "John Doe"
-                                        },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 0,
-                                            "nullable": false
-                                        },
-                                        "id_resp": {
-                                            "type": "integer",
-                                            "example": 0,
-                                            "nullable": false
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Coligada não encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Item not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erro de validação",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro de validação"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Coligada"
-                ],
-                "summary": "Remove uma Coligada existente",
-                "description": "Remove uma Coligada pelo ID.",
-                "operationId": "4f6f2e96dd0014665d0a8576ca911492",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID da coligada a ser removido",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Coligada removido com sucesso."
-                    },
-                    "404": {
-                        "description": "Coligada não encontrado.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Administrador não encontrado."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erro na requisição.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "ID inválido."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user": {
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Criar novo usuario",
-                "operationId": "089999749fbdec98922de2f74ba8d540",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "cpf": {
-                                        "type": "string"
-                                    },
-                                    "nascimento": {
-                                        "type": "string"
-                                    },
-                                    "id_coligada": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Item criado com sucesso"
-                    },
-                    "400": {
-                        "description": "Erro na requisição"
-                    }
-                }
-            }
-        },
-        "/api/user/{id}": {
-            "put": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Atualiza um user existente",
-                "description": "Atualiza os dados de uma coligada pelo ID.",
-                "operationId": "5e09c26a0abb2b1bf040badb2d9c69ba",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID do User a ser atualizado",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "cpf": {
-                                        "type": "string"
-                                    },
-                                    "nascimento": {
-                                        "type": "string"
-                                    },
-                                    "id_coligada": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Dados da coligada atualizados com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "email": {
-                                            "type": "string"
-                                        },
-                                        "cpf": {
-                                            "type": "string"
-                                        },
-                                        "nascimento": {
-                                            "type": "string"
-                                        },
-                                        "id_coligada": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User não encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Item not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erro de validação",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro de validação"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Remove uma Coligada existente",
-                "description": "Remove uma Coligada pelo ID.",
-                "operationId": "f8d7aea516ee464d0afee90f3a1a1722",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID da coligada a ser removido",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Coligada removido com sucesso."
-                    },
-                    "404": {
-                        "description": "Coligada não encontrado.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Administrador não encontrado."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erro na requisição.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "ID inválido."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "tags": [
-        {
-            "name": "Admin",
-            "description": "Admin"
-        },
         {
             "name": "Coligada",
             "description": "Coligada"
@@ -702,6 +692,10 @@
         {
             "name": "User",
             "description": "User"
+        },
+        {
+            "name": "Admin",
+            "description": "Admin"
         }
     ]
 }

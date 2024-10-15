@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ColigadaController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ElectionsUsersController;
+use App\Http\Controllers\ElectionsController;
 use App\Http\Controllers\AuthController;
 
 
@@ -16,21 +16,21 @@ Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']
 //Route Admin
 
 
-Route::post('/admin', [AdminController::class, 'store']); // Create new item
-Route::put('/admin/{id}', [AdminController::class, 'update']); // Update the item
-Route::post('/admin/login', [AdminController::class, 'login']); // Login
-Route::delete('/admin/{id}', [AdminController::class, 'destroy']); // Delete an item
+Route::post('/admin', [UsersController::class, 'store']); // Create new item
+Route::put('/admin/{id}', [UsersController::class, 'update']); // Update the item
+Route::post('/admin/login', [UsersController::class, 'login']); // Login
+Route::delete('/admin/{id}', [UsersController::class, 'destroy']); // Delete an item
 
 //Route Coligada
 
-Route::middleware('auth:admin')->get('/coligada', [ColigadaController::class, 'index']);
+Route::middleware('auth:admin')->get('/coligada', [ElectionsController::class, 'index']);
 
-Route::post('/coligada', [ColigadaController::class, 'store']); // Create New Coligada
-Route::put('/coligada/{id}', [ColigadaController::class, 'update']); // Update Coligada
-Route::delete('/coligada/{id}', [ColigadaController::class, 'destroy']); // Delete an item
+Route::post('/coligada', [ElectionsController::class, 'store']); // Create New Coligada
+Route::put('/coligada/{id}', [ElectionsController::class, 'update']); // Update Coligada
+Route::delete('/coligada/{id}', [ElectionsController::class, 'destroy']); // Delete an item
 
 //Route User
-Route::get('/user', [UserController::class, 'index']); // List All Users
-Route::post('/user', [UserController::class, 'store']); // Create New Coligada
-Route::put('/user/{id}', [UserController::class, 'update']); // Update Coligada
-Route::delete('/user/{id}', [UserController::class, 'destroy']); // Delete an item
+Route::get('/user', [ElectionsUsersController::class, 'index']); // List All Users
+Route::post('/user', [ElectionsUsersController::class, 'store']); // Create New Coligada
+Route::put('/user/{id}', [ElectionsUsersController::class, 'update']); // Update Coligada
+Route::delete('/user/{id}', [ElectionsUsersController::class, 'destroy']); // Delete an item

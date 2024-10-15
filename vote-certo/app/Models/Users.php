@@ -4,9 +4,9 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Admin extends Authenticatable implements JWTSubject
+class Users extends Authenticatable implements JWTSubject
 {
-    protected $fillable = ['name', 'email', 'password', 'cargo', 'id_coligada']; // Adicione os campos que você precisa
+    protected $fillable = ['name', 'email', 'password']; // Adicione os campos que você precisa
 
     public function getJWTIdentifier()
     {

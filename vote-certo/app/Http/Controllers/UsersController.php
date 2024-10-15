@@ -3,12 +3,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Admin;
+use App\Models\Users;
 /**
  * @OA\Info(title="API de Itens", version="1.0")
  */
 
-class AdminController
+class UsersController
 {
 
     /**
@@ -20,10 +20,8 @@ class AdminController
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="id_coligada", type="int"),
      *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="password", type="string"),
-     *             @OA\Property(property="cargo", type="int")
+     *             @OA\Property(property="password", type="string")
      *         )
      *     ),
      *     @OA\Response(
@@ -41,16 +39,14 @@ class AdminController
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'id_coligada' => 'nullable',
             'email' => 'required|max:255',
             'password' => 'required|max:255',
-            'cargo' => 'required|max:255',
         ]);
 
         // Criptografar a senha antes de salvar
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        $item = Admin::create($validatedData);
+        $item = Users::create($validatedData);
 
         return response()->json($item, 201);
     }
@@ -113,7 +109,7 @@ class AdminController
 
     public function update(Request $request, $id)
     {
-        $item = Admin::find($id);
+        $item = Users::find($id);
 
         if ($item) {
             $validatedData = $request->validate([
@@ -165,7 +161,7 @@ class AdminController
     {
         $credentials = $request->only('email', 'password');
 
-        $user = Admin::where('email', $credentials['email'])->first();
+        $user = Users::where('email', $credentials['email'])->first();
         if(isset($user)){
              if ($user && Hash::check($credentials['password'], $user->password)) {
                 // A senha está correta
@@ -183,7 +179,7 @@ class AdminController
 
     public static function find($id)
     {
-        return Admin::find($id);
+        return Users::find($id);
     }
 
     /**
@@ -225,7 +221,7 @@ class AdminController
 
     public function destroy($id)
     {
-        $item = Admin::find($id);
+        $item = Users::find($id);
 
         if ($item) {
             $item->delete();

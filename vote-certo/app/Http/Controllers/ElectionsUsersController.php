@@ -2,24 +2,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Coligada;
+use App\Models\ElectionsUsers;
 
-class ColigadaController{
+class ElectionsUsersController{
     public function index(){
-        return Coligada::all();
+        return ElectionsUsers::all();
     }
 
     /**
      * @OA\Post(
-     *     path="/api/coligada",
-     *     summary="Criar uma nova Coligada",
-     *     tags={"Coligada"},
+     *     path="/api/user",
+     *     summary="Criar novo usuario",
+     *     tags={"User"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="status", type="int"),
-     *             @OA\Property(property="id_resp", type="int")
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="cpf", type="string"),
+     *             @OA\Property(property="nascimento", type="string"),
+     *             @OA\Property(property="id_coligada", type="int")
      *         )
      *     ),
      *     @OA\Response(
@@ -36,25 +38,27 @@ class ColigadaController{
     public function store(Request $request){
         $validadeData = $request->validate([
             'name' => 'required|max:255',
-            'status' => 'required|max:255',
-            'id_resp' => 'required|max:255',
+            'email' => 'required|max:255',
+            'cpf' => 'required|max:255',
+            'nascimento' => 'required|max:255',
+            'id_coligada' => 'required|max:255',
         ]);
 
-        $item = Coligada::create($validadeData);
+        $item = ElectionsUsers::create($validadeData);
 
         return response()->json($item, 201);
     }
 
     /**
      * @OA\Put(
-     *     path="/api/coligada/{id}",
-     *     summary="Atualiza uma coligada existente",
+     *     path="/api/user/{id}",
+     *     summary="Atualiza um user existente",
      *     description="Atualiza os dados de uma coligada pelo ID.",
-     *     tags={"Coligada"},
+     *     tags={"User"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID da coligada a ser atualizado",
+     *         description="ID do User a ser atualizado",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -63,25 +67,27 @@ class ColigadaController{
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"name", "status", "id_resp"},
-     *             @OA\Property(property="name", type="string", example="cipa_1234"),
-     *             @OA\Property(property="status", type="integer", nullable=false, example=0),
-     *             @OA\Property(property="id_resp", type="integer", nullable=false, example=0)
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="cpf", type="string"),
+     *             @OA\Property(property="nascimento", type="string"),
+     *             @OA\Property(property="id_coligada", type="int")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Dados da coligada atualizados com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="status", type="integer", nullable=false, example=0),
-     *             @OA\Property(property="id_resp", type="integer", nullable=false, example=0)
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="cpf", type="string"),
+     *             @OA\Property(property="nascimento", type="string"),
+     *             @OA\Property(property="id_coligada", type="int")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Coligada não encontrado",
+     *         description="User não encontrado",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Item not found")
      *         )
@@ -98,13 +104,15 @@ class ColigadaController{
 
      public function update(Request $request, $id)
      {
-         $item = Coligada::find($id);
+         $item = ElectionsUsers::find($id);
 
          if ($item) {
              $validatedData = $request->validate([
                 'name' => 'required|max:255',
-                'status' => 'required|max:255',
-                'id_resp' => 'required|max:255',
+                'email' => 'required|max:255',
+                'cpf' => 'required|max:255',
+                'nascimento' => 'required|max:255',
+                'id_coligada' => 'required|max:255',
             ]);
 
              $item->update($validatedData);
@@ -117,10 +125,10 @@ class ColigadaController{
 
      /**
      * @OA\Delete(
-     *     path="/api/coligada/{id}",
+     *     path="/api/user/{id}",
      *     summary="Remove uma Coligada existente",
      *     description="Remove uma Coligada pelo ID.",
-     *     tags={"Coligada"},
+     *     tags={"User"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -153,7 +161,7 @@ class ColigadaController{
 
     public function destroy($id)
     {
-        $item = Coligada::find($id);
+        $item = ElectionsUsers::find($id);
 
         if ($item) {
             $item->delete();

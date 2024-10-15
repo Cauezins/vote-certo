@@ -25,13 +25,14 @@ $("#login-form").on("submit", (e) => {
         processData: false, // Não processar os dados automaticamente
         contentType: false, // Deixar o jQuery definir o Content-Type corretamente
         success: (response) => {
-            // Expira em 1 hora
-            const expires = 1 / 24;
+            const now = new Date();
+            const expires = new Date(
+                now.getTime() + 60 * 60 * 1000
+            ).toUTCString(); // Cookie válido por 1 hora
 
             // Armazena o token JWT e o ID do usuário em cookies
-            $.cookie('jwt_token', response.access_token, { expires: expires });
-            $.cookie('user_id', response.user_id, { expires: expires });
-
+            document.cookie = `jwt_token=${response.access_token}; path=/; expires=${expires};`; // sem HttpOnly
+            document.cookie = `user_id=${response.user_id}; path=/; expires=${expires};`;
 
             showStatusMessage(
                 "success",
