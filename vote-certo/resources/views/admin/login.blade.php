@@ -16,7 +16,7 @@
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
     <div
-      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      class="position-relative overflow-hidden radial-gradient-green min-vh-100 d-flex align-items-center justify-content-center">
       <div class="d-flex align-items-center justify-content-center w-100">
         <div class="row justify-content-center w-100">
           <div class="col-md-8 col-lg-6 col-xxl-4">
@@ -28,28 +28,19 @@
                 <p class="text-center">Painel de Admin</p>
                 <form id="login-form">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                    <label for="exampleInputEmail1" class="form-label">Usuário</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                   </div>
                   <div class="mb-4">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <label for="exampleInputPassword1" class="form-label">Senha</label>
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                  </div>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="form-check">
-                      <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
-                      <label class="form-check-label text-dark" for="flexCheckChecked">
-                        Remeber this Device
-                      </label>
-                    </div>
-                    <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
                   </div>
                   <div class="w-100 mb-3" id="msgState" style="display: none;">
                     <div id="msgContent" class="alert" role="alert">
                       <!-- Mensagem de status será exibida aqui -->
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary w-100 py-8 fs-4" id="buttonSubmit" style="height: 49px">Sign In</button>
+                  <button type="submit" class="btn btn-primary-green w-100 py-8 fs-4" id="buttonSubmit" >Entrar</button>
                 </form>
               </div>
             </div>

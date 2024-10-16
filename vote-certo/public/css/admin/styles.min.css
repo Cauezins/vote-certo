@@ -2613,7 +2613,7 @@ progress {
 .form-control:focus {
   color: var(--bs-body-color);
   background-color: transparent;
-  border-color: #94a9ff;
+  border-color: #3dfe54;
   outline: 0;
   -webkit-box-shadow: unset, 0 0 0 0.25rem rgba(41, 82, 255, 0.25);
           box-shadow: unset, 0 0 0 0.25rem rgba(41, 82, 255, 0.25);
@@ -3637,6 +3637,23 @@ textarea.form-control-lg {
   --bs-btn-disabled-bg: #2952ff;
   --bs-btn-disabled-border-color: #2952ff;
 }
+
+.btn-primary-green {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #00C851;
+    --bs-btn-border-color: #00C851;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #00C851;
+    --bs-btn-hover-border-color: #00C851;
+    --bs-btn-focus-shadow-rgb: 73, 108, 255;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #00C851;
+    --bs-btn-active-border-color: #00C851;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #00C851;
+    --bs-btn-disabled-border-color: #00C851;
+  }
 
 .btn-secondary {
   --bs-btn-color: #000;
@@ -16933,6 +16950,16 @@ ul {
   -webkit-animation: 15s ease 0s infinite normal none running gradient;
           animation: 15s ease 0s infinite normal none running gradient;
 }
+.radial-gradient-green::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0.3;
+    background: radial-gradient(rgb(189 251 215), rgb(186 255 187), rgb(191 255 216)) 0% 0% / 400% 400%;
+    -webkit-animation: 15s ease 0s infinite normal none running gradient;
+            animation: 15s ease 0s infinite normal none running gradient;
+  }
 
 .timeline-widget .timeline-item {
   min-height: 70px;
