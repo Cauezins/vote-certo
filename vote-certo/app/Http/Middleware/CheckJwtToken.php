@@ -11,7 +11,7 @@ class CheckJwtToken
     public function handle($request, Closure $next)
     {
         // Lista de rotas específicas que queremos tratar de forma especial
-        $adminRoutes = ['admin'];  // Rotas que requerem login
+        $adminRoutes = ['admin', 'admin/dashboard', 'admin/users'];  // Rotas que requerem login
         $loginRoute = 'admin/login'; // Rota de login
 
         // Obtém o token do cookie

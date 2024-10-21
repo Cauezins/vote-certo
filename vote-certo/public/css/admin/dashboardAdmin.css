@@ -1,0 +1,139 @@
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar fixa */
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-radius: 0 20px 0 20px;
+    box-shadow: 2px 0 10px #e0e0e0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+/* Esconde a sidebar quando estiver no modo mobile */
+.sidebar.hidden {
+    left: -100%;
+}
+
+/* Estilização dos sub links da sidebar */
+.sub-nav{
+  padding-inline-start: 20px;
+}
+.sub-nav-item{
+  list-style: none;
+
+}
+.sub-nav .sub-nav-link {
+    color: rgb(0, 0, 0);
+    background-color: #f8f8f849;
+    border-radius: 7px;
+    height: 40px;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+}
+
+.sub-nav .sub-nav-link:hover {
+    background-color: #939393;
+    color: white;
+}
+
+.sub-nav .sub-nav-link.active {
+    color: rgb(255, 255, 255);
+    background-color: #939393;
+}
+
+/* Estilização dos links da sidebar */
+
+.sidebar .nav-link {
+    color: rgb(0, 0, 0);
+    background-color: #f8f8f849;
+    border-radius: 7px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #939393;
+    color: white;
+}
+
+.sidebar .nav-link.active {
+    color: rgb(255, 255, 255);
+    background-color: #939393;
+}
+
+/* Botão para fechar a sidebar */
+.close-btn {
+    display: none;
+    text-align: right;
+    padding-right: 15px;
+    color: white;
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+/* Ajusta o conteúdo principal */
+.content {
+    flex-grow: 1;
+    background-color: #fafffa;
+    padding: 20px;
+    margin-left: 300px; /* Inicialmente, a margem esquerda corresponde à largura da sidebar */
+    transition: margin-left 0.3s ease;
+}
+.content-dashboard{
+  margin-left: 5px;
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 100vw;
+        /* Sidebar ocupa a tela toda no celular */
+        left: -100%;
+        /* Mantém a sidebar oculta inicialmente no mobile */
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0; /* Remove a margem no celular */
+    }
+
+    .close-btn {
+        display: block; /* Exibe o botão de fechar no celular */
+    }
+}
+
+/* Estilização do perfil */
+.profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.profile-name {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu-btn {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#logo-horizontal {
+    width: 120px;
+}

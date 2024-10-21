@@ -490,17 +490,13 @@
                                     "name",
                                     "email",
                                     "password",
-                                    "cargo"
+                                    "position",
+                                    "img_profile"
                                 ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
                                         "example": "John Doe"
-                                    },
-                                    "id_coligada": {
-                                        "type": "integer",
-                                        "example": 1,
-                                        "nullable": true
                                     },
                                     "email": {
                                         "type": "string",
@@ -510,9 +506,14 @@
                                         "type": "string",
                                         "example": "password123"
                                     },
-                                    "cargo": {
+                                    "position": {
+                                        "type": "integer",
+                                        "example": "99"
+                                    },
+                                    "img_profile": {
                                         "type": "string",
-                                        "example": "Gerente"
+                                        "example": "profile/caue.img",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"

@@ -16,7 +16,8 @@ Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']
 //Route Admin
 
 
-Route::post('/admin', [UsersController::class, 'store']); // Create new item
+Route::middleware('auth:api')->post('/admin', [UsersController::class, 'store']); // Create new item
+Route::get('/admin/{id}', [UsersController::class, 'show']); // Update the item
 Route::put('/admin/{id}', [UsersController::class, 'update']); // Update the item
 Route::post('/admin/login', [UsersController::class, 'login']); // Login
 Route::delete('/admin/{id}', [UsersController::class, 'destroy']); // Delete an item

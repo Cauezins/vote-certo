@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Users;
+
 /**
  * @OA\Info(title="API de Itens", version="1.0")
  */
@@ -21,7 +24,9 @@ class UsersController
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="password", type="string")
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="position", type="integer"),
+     *             @OA\Property(property="img_profile", type="string"),
      *         )
      *     ),
      *     @OA\Response(
@@ -41,7 +46,17 @@ class UsersController
             'name' => 'required|max:255',
             'email' => 'required|max:255',
             'password' => 'required|max:255',
+            'position' => 'required|max:255',
+            'img_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar apenas se for uma imagem
         ]);
+
+        if ($request->hasFile('img_profile')) {
+            $image = $request->file('img_profile');
+            $imageName = time() . "." . $image->getClientOriginalExtension();
+            $path = $image->storeAs('profile_images', $imageName, 'public'); // Salva no diretório 'public/storage/profile_images'
+            $validatedData['img_profile'] =  $path; // Caminho da imagem a ser salvo no banco
+        }
+
 
         // Criptografar a senha antes de salvar
         $validatedData['password'] = Hash::make($validatedData['password']);
@@ -50,6 +65,44 @@ class UsersController
 
         return response()->json($item, 201);
     }
+
+    //depois comenta
+
+    public function show($id)
+    {
+        // Busca o usuário no banco de dados pelo ID
+        $user = Users::find($id);
+
+        // Verifica se o usuário foi encontrado
+        if ($user) {
+            // Retorna os dados do usuário (como JSON ou para uma view)
+            return response()->json(['user' => $user]);
+        } else {
+            // Caso não encontre o usuário, pode retornar um erro
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
+
+
+    public function showAdminView($view)
+    {
+        $id = $_COOKIE['user_id'];
+        $user = Users::find($id);  // Busca o usuário pelo ID
+
+        if ($user) {
+            // Passa o objeto User diretamente para a view
+            if ($view == "users") {
+                $data = Users::all();
+                return view('admin.admin', ['view' => $view, 'user' => $user, 'data' => $data]);
+            } else {
+                return view('admin.admin', ['view' => $view, 'user' => $user]);
+            }
+        } else {
+            // Caso não encontre o usuário, redireciona ou retorna um erro
+            return redirect('/admin/login');
+        }
+    }
+
 
 
     /**
@@ -71,12 +124,12 @@ class UsersController
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"name", "email", "password", "cargo"},
+     *             required={"name", "email", "password", "position", "img_profile"},
      *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="id_coligada", type="integer", nullable=true, example=1),
      *             @OA\Property(property="email", type="string", example="john.doe@example.com"),
      *             @OA\Property(property="password", type="string", example="password123"),
-     *             @OA\Property(property="cargo", type="string", example="Gerente")
+     *             @OA\Property(property="position", type="integer", example="99"),
+     *             @OA\Property(property="img_profile", type="string", nullable=true, example="profile/caue.img"),
      *         )
      *     ),
      *     @OA\Response(
@@ -114,11 +167,18 @@ class UsersController
         if ($item) {
             $validatedData = $request->validate([
                 'name' => 'required|max:255',
-                'id_coligada' => 'nullable',
                 'email' => 'required|max:255',
                 'password' => 'required|max:255',
-                'cargo' => 'required|max:255',
+                'position' => 'required|max:255',
+                'img_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar apenas se for uma imagem
             ]);
+
+            if ($request->hasFile('img_profile')) {
+                $image = $request->file('img_profile');
+                $imageName = time() . "." . $image->getClientOriginalExtension();
+                $path = $image->storeAs('profile_images', $imageName, 'public'); // Salva no diretório 'public/storage/profile_images'
+                $validatedData['img_profile'] = '/storage/' . $path; // Caminho da imagem a ser salvo no banco
+            }
 
             $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -162,19 +222,17 @@ class UsersController
         $credentials = $request->only('email', 'password');
 
         $user = Users::where('email', $credentials['email'])->first();
-        if(isset($user)){
-             if ($user && Hash::check($credentials['password'], $user->password)) {
+        if (isset($user)) {
+            if ($user && Hash::check($credentials['password'], $user->password)) {
                 // A senha está correta
                 return response()->json($user, 200);
             } else {
                 // A senha está incorreta
                 return response()->json(['message' => 'Credenciais inválidas'], 401);
             }
-        }else{
+        } else {
             return response()->json(['message' => 'User Not Found'], 400);
         }
-
-
     }
 
     public static function find($id)
@@ -224,6 +282,18 @@ class UsersController
         $item = Users::find($id);
 
         if ($item) {
+            // Verifica se a imagem existe e exclui
+            if ($item->img_profile != 'profile_images/image_default.jpg') {
+                $filePath = storage_path('app/public/' . $item->img_profile); // Constrói o caminho completo
+
+                // Verifica se o arquivo existe usando PHP
+                if (file_exists($filePath)) {
+                    unlink($filePath); // Exclui a imagem
+                } else {
+                    return response()->json(['message' => 'Arquivo não encontrado'], 404);
+                }
+            }
+
             $item->delete();
 
             return response()->json(['message' => 'Item deleted successfully'], 204);
