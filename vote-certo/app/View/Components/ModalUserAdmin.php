@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class ModalCreateUserAdmin extends Component
+class ModalUserAdmin extends Component
 {
     public $id;
     public $image_profile;
@@ -27,6 +27,6 @@ class ModalCreateUserAdmin extends Component
      */
     public function render()
     {
-        return view('components.admin.users.modal-create-user');
+        return view('components.admin.users.modal-user');
     }
 }

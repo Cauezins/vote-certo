@@ -9,20 +9,24 @@
      <h6>Painel Admin</h6>
      <ul class="nav flex-column">
          <li class="nav-item pt-2">
-             <a class="nav-link @if($viewName == 'dashboard') active @endif" href="/admin/dashboard"><i class="bi bi-house-door-fill"></i> Dashboard</a>
+             <a class="nav-link @if ($viewName == 'dashboard') active @endif" href="/admin/dashboard"><i
+                     class="bi bi-house-door-fill"></i> Dashboard</a>
          </li>
          @if ($position == 99)
              <li class="nav-item pt-2">
-                 <a class="nav-link @if($viewName == 'users') active @endif" href="/admin/users"><i class="bi bi-people-fill"></i> Usuários</a>
+                 <a class="nav-link @if ($viewName == 'users') active @endif" href="/admin/users"><i
+                         class="bi bi-people-fill"></i> Usuários</a>
              </li>
          @endif
          <li class="nav-item pt-2">
-             <div class="nav-link d-flex justify-content-between">
-                 <a>
+             <div class="nav-link d-flex justify-content-between @if ($viewName == 'elections') active @endif">
+                 <div onclick="document.location.href = '/admin/elections'">
                      <i class="bi bi-archive-fill"></i> Eleiçoes
-                 </a>
+
+                 </div>
+
                  <div id="dropdown-elections">
-                    <i class="bi bi-caret-down-fill"></i> <!-- Seta indicando submenu -->
+                     <i class="bi bi-caret-down-fill"></i> <!-- Seta indicando submenu -->
                  </div>
 
              </div>
@@ -46,7 +50,6 @@
                      </div>
                  </li>
              </ul>
-
          </div>
          @if ($position == 50 || $position == 99)
              <li class="nav-item pt-2">

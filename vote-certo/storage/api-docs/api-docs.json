@@ -445,6 +445,12 @@
                                     },
                                     "password": {
                                         "type": "string"
+                                    },
+                                    "position": {
+                                        "type": "integer"
+                                    },
+                                    "img_profile": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"

@@ -17,6 +17,7 @@ Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']
 
 
 Route::middleware('auth:api')->post('/admin', [UsersController::class, 'store']); // Create new item
+Route::get('/admin', [UsersController::class, 'all']); // Update the item
 Route::get('/admin/{id}', [UsersController::class, 'show']); // Update the item
 Route::put('/admin/{id}', [UsersController::class, 'update']); // Update the item
 Route::post('/admin/login', [UsersController::class, 'login']); // Login

@@ -13,6 +13,14 @@ use App\Models\Users;
 
 class UsersController
 {
+    public function all()
+    {
+        $item = Users::all();
+
+        return response()->json($item, 201);
+    }
+
+
 
     /**
      * @OA\Post(
@@ -55,6 +63,8 @@ class UsersController
             $imageName = time() . "." . $image->getClientOriginalExtension();
             $path = $image->storeAs('profile_images', $imageName, 'public'); // Salva no diretório 'public/storage/profile_images'
             $validatedData['img_profile'] =  $path; // Caminho da imagem a ser salvo no banco
+        }else{
+            unset($validatedData['img_profile']);
         }
 
 
@@ -168,23 +178,42 @@ class UsersController
             $validatedData = $request->validate([
                 'name' => 'required|max:255',
                 'email' => 'required|max:255',
-                'password' => 'required|max:255',
+                'password' => 'nullable|max:255',
                 'position' => 'required|max:255',
                 'img_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar apenas se for uma imagem
             ]);
 
             if ($request->hasFile('img_profile')) {
+                if ($item->img_profile != 'profile_images/image_default.jpg' && $item->img_profile != null) {
+                    $filePath = storage_path('app/public/' . $item->img_profile); // Constrói o caminho completo
+
+                    // Verifica se o arquivo existe usando PHP
+                    if (file_exists($filePath)) {
+                        unlink($filePath); // Exclui a imagem
+                    } else {
+                        return response()->json(['message' => 'Arquivo não encontrado'], 404);
+                    }
+                }
                 $image = $request->file('img_profile');
                 $imageName = time() . "." . $image->getClientOriginalExtension();
                 $path = $image->storeAs('profile_images', $imageName, 'public'); // Salva no diretório 'public/storage/profile_images'
-                $validatedData['img_profile'] = '/storage/' . $path; // Caminho da imagem a ser salvo no banco
+                $validatedData['img_profile'] =  $path; // Caminho da imagem a ser salvo no banco
+            }else{
+                unset($validatedData['img_profile']);
             }
 
-            $validatedData['password'] = Hash::make($validatedData['password']);
+
+            // Criptografar a senha antes de salvar
+            if($validatedData['password'] == "" || $validatedData['password'] == null){
+                unset($validatedData['password']);
+            }else{
+                $validatedData['password'] = Hash::make($validatedData['password']);
+            }
+
 
             $item->update($validatedData);
 
-            return response()->json($item, 200);
+            return response()->json(['id' => $item['id']], 200);
         } else {
             return response()->json(['message' => 'Item not found'], 404);
         }

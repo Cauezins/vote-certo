@@ -9,12 +9,12 @@
         <!-- Conteúdo da dashboard -->
         <div class="row mt-4">
             <div>
-                <button class="btn btn-dark" style="padding: 5px 13px 10px 13px;" data-bs-toggle="modal"
-                    data-bs-target="#modalCreateUser"><i class="bi bi-person-plus-fill"></i></button>
+                <button class="btn btn-dark criar-item" style="padding: 5px 13px 10px 13px;" data-image="{{ Storage::url('profile_images/image_default.jpg') }}"><i
+                        class="bi bi-person-plus-fill"></i></button>
             </div>
 
-            <x-modal-create-user-admin id="modalCreateUser" :image_profile="$imageProfile">
-            </x-modal-create-user-admin>
+            <x-modal-user-admin id="modalUser" :image_profile="$imageProfile">
+            </x-modal-user-admin>
 
         </div>
 
@@ -33,18 +33,19 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($dataItems as $item)
+                <tbody id="tbodyTableUsers">
+                    @foreach ($dataItems as $item)
                         <tr>
                             <td>
-                                <img src="{{Storage::url($item['img_profile'])}}" id="table-image-preview" alt="">
+                                <img src="{{ Storage::url($item['img_profile']) }}" id="table-image-preview"
+                                    alt="">
                             </td>
-                            <td>{{$item['id']}}</td>
-                            <td>{{$item['name']}}</td>
-                            <td>{{$item['email']}}</td>
+                            <td>{{ $item['id'] }}</td>
+                            <td>{{ $item['name'] }}</td>
+                            <td>{{ $item['email'] }}</td>
 
                             <td>
-                                @if($item['position'] == 1)
+                                @if ($item['position'] == 1)
                                     <span class="badge text-bg-primary">Usuário</span>
                                 @elseif($item['position'] == 50)
                                     <span class="badge text-bg-info">Suporte</span>
@@ -54,10 +55,16 @@
                             </td>
                             <td>
                                 <div class="dropdown">
-                                    <i class="bi bi-three-dots-vertical" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <i class="bi bi-three-dots-vertical" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu" style="z-index: 4" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item" href="#">Editar</a></li>
-                                        <li><a class="dropdown-item delete-item" href="#" data-action="delete" data-id="{{$item['id']}}" data-name="{{$item['name']}}" >Excluir</a></li>
+                                        <li><a class="dropdown-item edit-item" data-id="{{ $item['id'] }}"
+                                                data-name="{{ $item['name'] }}" data-email="{{ $item['email'] }}"
+                                                data-position="{{ $item['position'] }}"
+                                                data-image="{{ Storage::url($item['img_profile']) }}">Editar</a></li>
+                                        <li><a class="dropdown-item delete-item" href="#"
+                                                data-id="{{ $item['id'] }}"
+                                                data-name="{{ $item['name'] }}">Excluir</a></li>
                                     </ul>
                                 </div>
                             </td>

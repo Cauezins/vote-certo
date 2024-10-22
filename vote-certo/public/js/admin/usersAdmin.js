@@ -17,12 +17,28 @@ function loadFile(event) {
 $(document).ready(function () {
     $("#example").DataTable({
         columnDefs: [
-            { width: "60px", targets: 0,  className: "text-center align-middle"  }, // Define a largura da primeira coluna (imagem)
-            { width: "60px", targets: 1 ,  className: "text-center align-middle" }, // Largura da coluna ID
+            {
+                width: "60px",
+                targets: 0,
+                className: "text-center align-middle",
+            }, // Define a largura da primeira coluna (imagem)
+            {
+                width: "60px",
+                targets: 1,
+                className: "text-center align-middle",
+            }, // Largura da coluna ID
             { width: "200px", targets: 2 }, // Largura da coluna Nome
-            { width: "250px", targets: 3}, // Largura da coluna Email
-            { width: "150px", targets: 4 ,  className: "text-center align-middle" }, // Largura da coluna Cargo
-            { width: "50px", targets: 5 ,  className: "text-center align-middle" }, // Largura da coluna de ações
+            { width: "250px", targets: 3 }, // Largura da coluna Email
+            {
+                width: "150px",
+                targets: 4,
+                className: "text-center align-middle",
+            }, // Largura da coluna Cargo
+            {
+                width: "50px",
+                targets: 5,
+                className: "text-center align-middle",
+            }, // Largura da coluna de ações
         ],
         autoWidth: false, // Desabilita o ajuste automático de largura
         scrollX: true, // Habilita a rolagem horizontal caso necessário
@@ -33,9 +49,8 @@ $(document).ready(function () {
         document.getElementById("imageInput").click();
     });
 
-    $("#formModalCreateUser").on("submit", (e) => {
+    $(document).on("submit", "#formModalCreateUser", function (e) {
         e.preventDefault();
-        alert("roq aq");
         var data = document.getElementById("formModalCreateUser");
         var formData = new FormData(data);
         $.ajax({
@@ -48,40 +63,251 @@ $(document).ready(function () {
             },
             data: formData,
             success: (response) => {
-                alert("teste");
-                console.log(response);
+                let message = $('#msgModalUser')
+                updateTable()
+                msg('Perfil criado com sucesso.', true, 'msgModalUser');
+                setTimeout(() =>{
+                    message.fadeOut();
+                    $("#modalUser").modal("hide");
+                }, 2000)
+            },
+            error: (xhr, status, error) => {
+                if(xhr.status == 500){
+                    let message = $('#msgModalUser')
+                    msg('Email já cadastrado no banco de dados.', false, 'msgModalUser');
+                    setTimeout(() =>{
+                        message.fadeOut();
+                    }, 2000)
+                }
             },
         });
     });
 
-    $(document).on('click', '.delete-item', function() {
-        var itemId = $(this).data('id');
-        var itemName = $(this).data('name');
-        $('#itemId').val(itemId); // Armazena o ID no campo oculto do modal
-        $('#modalLabel').text('Excluir Item');
-        $('#modalMessage').text('Você tem certeza que deseja excluir a conta do usuário ' + itemName + '?');
-        $('#modalEditDelete').modal('show'); // Mostra o modal
-    });
+    $(document).on("submit", "#formModalEditUser", function (e) {
+        e.preventDefault();
+        var idUser = getCookie('user_id');
+        var itemId = $("#itemId").val();
+        var data = document.getElementById("formModalEditUser");
+        var formData = new FormData(data);
 
-     // Evento para confirmar exclusão
-     $('#confirmDelete').on('click', function() {
-        var itemId = $('#itemId').val();
-        // Requisição AJAX para excluir o item
+        formData.append("_method", "PUT");
         $.ajax({
-            url: '/api/admin/' + itemId, // Ajuste a URL conforme necessário
-            type: 'DELETE',
+            url: "/api/admin/" + itemId,
+            method: "POST",
+            processData: false, // Evita que o jQuery processe os dados
+            contentType: false, // Impede que o jQuery defina o Content-Type automaticamente
             headers: {
                 Authorization: "Bearer " + getCookie("jwt_token"),
             },
-            success: function(response) {
-                $('#modalEditDelete').modal('hide');
-                // Opcional: atualize a tabela ou faça um refresh
-                location.reload(); // Recarrega a página
+            data: formData,
+            success: (response) => {
+                if(response.id == idUser){
+                    let message = $('#msgModalUser')
+                    msg('O seu perfil foi alterado com sucesso, a página irá recarregar.', true, 'msgModalUser');
+                    setTimeout(() =>{
+                        message.fadeOut();
+                        document.location.reload()
+                    }, 2000)
+
+                }else{
+                    let message = $('#msgModalUser')
+                    updateTable()
+                    msg('Perfil alterado com sucesso.', true, 'msgModalUser');
+                    setTimeout(() =>{
+                        message.fadeOut();
+                        $("#modalUser").modal("hide");
+                    }, 2000)
+
+                }
+
             },
-            error: function(xhr) {
+            error: (xhr, status, error) => {
+                if(xhr.status == 500){
+                    let message = $('#msgModalUser')
+                    msg('Email já cadastrado no banco de dados.', false, 'msgModalUser');
+                    setTimeout(() =>{
+                        message.fadeOut();
+                    }, 2000)
+                }
+            },
+        });
+    });
+
+    $(document).on("click", ".edit-item", function () {
+        var itemId = $(this).data("id");
+        var itemName = $(this).data("name");
+        var itemEmail = $(this).data("email");
+        var itemPosition = $(this).data("position");
+        var itemImage = $(this).data("image");
+        $(".formModalUser").attr("id", "formModalEditUser");
+        $("#buttonSubmit").html('Editar');
+        $("#itemId").val(itemId); // Armazena o ID no campo oculto do modal
+        $("#modalUserLabel").text("Editar Item");
+        $("#nameInputModal").val(itemName);
+        $("#emailInputModal").val(itemEmail);
+        $("#positionInputModal").val(itemPosition);
+        $("#passwordInputModal").val("");
+        $("#imageContainer").css("background-image", "url(" + itemImage + ")");
+        $("#modalUser").modal("show"); // Mostra o modal
+    });
+
+    $(document).on("click", ".criar-item", function () {
+        var itemImage = $(this).data("image");
+        $("#buttonSubmit").html('Criar');
+        $(".formModalUser").attr("id", "formModalCreateUser");
+        $("#itemId").val(itemId); // Armazena o ID no campo oculto do modal
+        $("#modalUserLabel").text("Criar Usuário");
+        $("#nameInputModal").val("");
+        $("#emailInputModal").val("");
+        $("#positionInputModal").val("");
+        $("#passwordInputModal").val("");
+        $("#imageContainer").css("background-image", "url(" + itemImage + ")");
+        $("#modalUser").modal("show"); // Mostra o modal
+    });
+
+    $(document).on("click", ".delete-item", function () {
+        var itemId = $(this).data("id");
+        var itemName = $(this).data("name");
+        $("#itemId").val(itemId); // Armazena o ID no campo oculto do modal
+        $("#modalLabel").text("Excluir Item");
+        $("#modalMessage").text(
+            "Você tem certeza que deseja excluir a conta do usuário " +
+                itemName +
+                "?"
+        );
+        $("#modalEditDelete").modal("show"); // Mostra o modal
+    });
+
+    // Evento para confirmar exclusão
+    $("#confirmDelete").on("click", function () {
+        var itemId = $("#itemId").val();
+        // Requisição AJAX para excluir o item
+        $.ajax({
+            url: "/api/admin/" + itemId, // Ajuste a URL conforme necessário
+            type: "DELETE",
+            headers: {
+                Authorization: "Bearer " + getCookie("jwt_token"),
+            },
+            success: function (response) {
+                updateTable()
+                $("#modalEditDelete").modal("hide");
+            },
+            error: function (xhr) {
                 console.error(xhr);
-                alert('Erro ao excluir o item');
-            }
+                alert("Erro ao excluir o item");
+            },
         });
     });
 });
+
+function updateTable() {
+    $("#example").DataTable().destroy();
+    $("#tbodyTableUsers").html("");
+    $.ajax({
+        url: "/api/admin", // URL da sua API que retorna os dados
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + getCookie("jwt_token"),
+        },
+        success: function (response) {
+
+            response.forEach((item) => {
+                addRowToTable(item);
+            });
+            // Reinicializar o DataTable
+
+            $("#example").DataTable({
+                columnDefs: [
+                    {
+                        width: "60px",
+                        targets: 0,
+                        className: "text-center align-middle",
+                    }, // Define a largura da primeira coluna (imagem)
+                    {
+                        width: "60px",
+                        targets: 1,
+                        className: "text-center align-middle",
+                    }, // Largura da coluna ID
+                    { width: "200px", targets: 2 }, // Largura da coluna Nome
+                    { width: "250px", targets: 3 }, // Largura da coluna Email
+                    {
+                        width: "150px",
+                        targets: 4,
+                        className: "text-center align-middle",
+                    }, // Largura da coluna Cargo
+                    {
+                        width: "50px",
+                        targets: 5,
+                        className: "text-center align-middle",
+                    }, // Largura da coluna de ações
+                ],
+                autoWidth: false, // Desabilita o ajuste automático de largura
+                scrollX: true, // Habilita a rolagem horizontal caso necessário
+            });
+        },
+        error: function (error) {
+            console.log("Erro ao buscar dados:", error);
+        },
+    });
+}
+
+function addRowToTable(item) {
+    var newRow = `
+    <tr>
+        <td>
+            <img src="/storage/${item.img_profile}" id="table-image-preview" alt="">
+        </td>
+        <td>${item.id}</td>
+        <td>${item.name}</td>
+        <td>${item.email}</td>
+        <td>
+            ${getPositionBadge(item.position)}
+        </td>
+        <td>
+            <div class="dropdown">
+                <i class="bi bi-three-dots-vertical" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu" style="z-index: 4" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item edit-item" data-id="${item.id}"
+                            data-name="${item.name}" data-email="${item.email}"
+                            data-position="${item.position}"
+                            data-image="/storage/${item.img_profile}">Editar</a></li>
+                    <li><a class="dropdown-item delete-item" href="#"
+                            data-id="${item.id}"
+                            data-name="${item.name}">Excluir</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+`;
+
+    // Adiciona a nova linha ao tbody
+    $("#tbodyTableUsers").append(newRow);
+}
+
+function getPositionBadge(position) {
+    if (position == 1) {
+        return '<span class="badge text-bg-primary">Usuário</span>';
+    } else if (position == 50) {
+        return '<span class="badge text-bg-info">Suporte</span>';
+    } else if (position == 99) {
+        return '<span class="badge text-bg-success">Administrador</span>';
+    }
+    return "";
+}
+
+function msg(msg, type, id){
+    if(type){
+        let message = $("#"+ id);
+        message.html(msg);
+        message.addClass('alert alert-success')
+        message.fadeIn();
+
+    }else{
+        let message = $("#"+ id);
+        message.html(msg);
+        message.addClass('alert alert-danger')
+        message.fadeIn();
+
+    }
+}
