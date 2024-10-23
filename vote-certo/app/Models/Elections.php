@@ -10,5 +10,5 @@ class Elections extends Model
     use HasFactory;
 
     // Permitir que os seguintes campos sejam preenchíveis
-    protected $fillable = ['name', 'status', 'id_resp'];
+    protected $fillable = ['title', 'start_date', 'end_date', 'creator_id', 'category', 'public_results'];
 }

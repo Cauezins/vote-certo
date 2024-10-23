@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckJwtToken;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ElectionsController;
+use App\Http\Controllers\DashboardController;
+use App\Models\Elections;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,14 +15,14 @@ Route::group(['middleware' => ['web', CheckJwtToken::class]], function () {
     Route::get('/admin', function () {
         return redirect('/admin/dashboard');
     });
-    Route::get('/admin/dashboard', function (UsersController $userscontroller) {
-        return $userscontroller->showAdminView('dashboard');
+    Route::get('/admin/dashboard', function (DashboardController $dashboardController) {
+        return $dashboardController->showView();
     });
     Route::get('/admin/users', function (UsersController $userscontroller) {
-        return $userscontroller->showAdminView('users');
+        return $userscontroller->showView('users');
     });
-    Route::get('/admin/elections', function (UsersController $userscontroller) {
-        return $userscontroller->showAdminView('elections');
+    Route::get('/admin/elections', function (ElectionsController $electionsController) {
+        return $electionsController->showView('elections');
     });
 
 

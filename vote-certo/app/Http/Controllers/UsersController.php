@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Elections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -94,19 +95,16 @@ class UsersController
     }
 
 
-    public function showAdminView($view)
+    public function showView($view)
     {
         $id = $_COOKIE['user_id'];
         $user = Users::find($id);  // Busca o usuário pelo ID
 
         if ($user) {
             // Passa o objeto User diretamente para a view
-            if ($view == "users") {
-                $data = Users::all();
-                return view('admin.admin', ['view' => $view, 'user' => $user, 'data' => $data]);
-            } else {
-                return view('admin.admin', ['view' => $view, 'user' => $user]);
-            }
+                $dataElections = ElectionsController::getElectionsByPermission($user->id, $user->position);
+                $dataUsers = Users::all();
+                return view('admin.admin', ['view' => $view, 'user' => $user, 'dataUsers' => $dataUsers, 'dataElections' => $dataElections]);
         } else {
             // Caso não encontre o usuário, redireciona ou retorna um erro
             return redirect('/admin/login');

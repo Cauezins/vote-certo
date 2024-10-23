@@ -27,7 +27,7 @@ Route::delete('/admin/{id}', [UsersController::class, 'destroy']); // Delete an 
 
 Route::middleware('auth:admin')->get('/coligada', [ElectionsController::class, 'index']);
 
-Route::post('/coligada', [ElectionsController::class, 'store']); // Create New Coligada
+Route::post('/elections', [ElectionsController::class, 'store']); // Create New Coligada
 Route::put('/coligada/{id}', [ElectionsController::class, 'update']); // Update Coligada
 Route::delete('/coligada/{id}', [ElectionsController::class, 'destroy']); // Delete an item
 

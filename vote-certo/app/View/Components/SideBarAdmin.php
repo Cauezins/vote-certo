@@ -10,13 +10,15 @@ class SideBarAdmin extends Component
 {
     public $position;
     public $viewName;
+    public $dataElections;
     /**
      * Create a new component instance.
      */
-    public function __construct($position = null, $view = null)
+    public function __construct($position = null, $view = null, $dataElections = null)
     {
         $this->position = $position;
         $this->viewName = $view;
+        $this->dataElections = $dataElections;
     }
 
     /**

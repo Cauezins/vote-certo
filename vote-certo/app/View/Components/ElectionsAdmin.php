@@ -11,14 +11,16 @@ class ElectionsAdmin extends Component
     public $name;
     public $position;
     public $imageProfile;
+    public $dataItems;
     /**
      * Create a new component instance.
      */
-    public function __construct($name = null, $position = null, $image_profile = null)
+    public function __construct($name = null, $position = null, $image_profile = null, $data = null)
     {
         $this->name = $name;
         $this->position = $position;
         $this->imageProfile = $image_profile;
+        $this->dataItems = $data;
     }
 
     /**
@@ -26,6 +28,6 @@ class ElectionsAdmin extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.users.users');
+        return view('components.admin.elections.elections');
     }
 }

@@ -1,14 +1,46 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Elections;
+use App\Models\ElectionUsers;
+use App\Models\Users;
 
-class ElectionsController{
-    public function index(){
+class ElectionsController
+{
+    public static function getElectionsByPermission($idUser, $position)
+    {
+        $data = "";
+        if ($position == 99 || $position == 50) {
+            $data = Elections::all();
+        } else {
+            $data = Elections::leftJoin('election_users', 'elections.id', '=', 'election_users.election_id')->where('election_users.user_id', $idUser)->orWhere('elections.creator_id', $idUser)->get();
+        }
+        return $data;
+    }
+
+
+    public function showView($view)
+    {
+        $id = $_COOKIE['user_id'];
+        $user = Users::find($id);  // Busca o usuário pelo ID
+
+        if ($user) {
+            $dataElections = self::getElectionsByPermission($user->id,$user->position);
+            return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections]);
+        } else {
+            // Caso não encontre o usuário, redireciona ou retorna um erro
+            return redirect('/admin/login');
+        }
+    }
+
+    public function index()
+    {
         return Elections::all();
     }
 
+    //tem q ajustar a documentação
     /**
      * @OA\Post(
      *     path="/api/coligada",
@@ -33,11 +65,15 @@ class ElectionsController{
      * )
      */
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validadeData = $request->validate([
-            'name' => 'required|max:255',
-            'status' => 'required|max:255',
-            'id_resp' => 'required|max:255',
+            'title' => 'required|max:255',
+            'start_date' => 'nullable|max:255',
+            'end_date' => 'nullable|max:255',
+            'creator_id' => 'required|max:255',
+            'category' => 'required|max:255',
+            'public_results' => 'required|max:1',
         ]);
 
         $item = Elections::create($validadeData);
@@ -96,26 +132,26 @@ class ElectionsController{
      * )
      */
 
-     public function update(Request $request, $id)
-     {
-         $item = Elections::find($id);
+    public function update(Request $request, $id)
+    {
+        $item = Elections::find($id);
 
-         if ($item) {
-             $validatedData = $request->validate([
+        if ($item) {
+            $validatedData = $request->validate([
                 'name' => 'required|max:255',
                 'status' => 'required|max:255',
                 'id_resp' => 'required|max:255',
             ]);
 
-             $item->update($validatedData);
+            $item->update($validatedData);
 
-             return response()->json($item, 200);
-         } else {
-             return response()->json(['message' => 'Item not found'], 404);
-         }
-     }
+            return response()->json($item, 200);
+        } else {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
+    }
 
-     /**
+    /**
      * @OA\Delete(
      *     path="/api/coligada/{id}",
      *     summary="Remove uma Coligada existente",
@@ -162,6 +198,4 @@ class ElectionsController{
             return response()->json(['message' => 'Item not found'], 404);
         }
     }
-
 }
-

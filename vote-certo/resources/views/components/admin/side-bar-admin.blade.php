@@ -34,21 +34,13 @@
          </li>
          <div style="display: none" data-target="#dropdown-elections">
              <ul class="sub-nav">
+                @foreach($dataElections as $item)
                  <li class="sub-nav-item pt-2">
                      <div class="sub-nav-link d-flex justify-content-between">
-                         teste 1
+                         {{$item['title']}}
                      </div>
                  </li>
-                 <li class="sub-nav-item pt-2">
-                     <div class="sub-nav-link d-flex justify-content-between">
-                         teste 2
-                     </div>
-                 </li>
-                 <li class="sub-nav-item pt-2">
-                     <div class="sub-nav-link d-flex justify-content-between">
-                         teste 3
-                     </div>
-                 </li>
+                @endforeach
              </ul>
          </div>
          @if ($position == 50 || $position == 99)

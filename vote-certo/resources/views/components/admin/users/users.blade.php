@@ -5,10 +5,45 @@
         <div class="my-3">
             Home / Usuarios
         </div>
+        <div class="row mt-4">
+            <!-- Cards -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Usuários Ativos</h5>
+                        <p class="card-text">1,234</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Novos Cadastros</h5>
+                        <p class="card-text">567</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Vendas</h5>
+                        <p class="card-text">R$ 12,345</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Comentários</h5>
+                        <p class="card-text">89</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Conteúdo da dashboard -->
         <div class="row mt-4">
-            <div>
+            <div class="d-flex justify-content-end">
                 <button class="btn btn-dark criar-item" style="padding: 5px 13px 10px 13px;" data-image="{{ Storage::url('profile_images/image_default.jpg') }}"><i
                         class="bi bi-person-plus-fill"></i></button>
             </div>

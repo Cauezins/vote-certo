@@ -12,20 +12,22 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
     @if ($view == 'users')
         <link rel="stylesheet" href="{{ asset('css/admin/usersAdmin.css') }}">
+    @elseif($view == 'elections')
+        <link rel="stylesheet" href="{{ asset('css/admin/electionsAdmin.css') }}">
     @endif
     <link rel="stylesheet" href="{{ asset('css/admin/dashboardAdmin.css') }}">
 </head>
 
 <body>
-    <x-side-bar-admin :position="$user->position" :view="$view" />
+    <x-side-bar-admin :position="$user->position" :view="$view" :dataElections="$dataElections"/>
 
     <!-- Conteúdo principal -->
     @if ($view == 'dashboard')
         <x-dashboard-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" />
     @elseif($view == 'users')
-        <x-users-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :data="$data" />
+        <x-users-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :data="$dataUsers" />
     @elseif($view == 'elections')
-        <x-elections-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" />
+        <x-elections-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :data="$dataElections"/>
     @endif
 
     <!-- Bootstrap JS -->
@@ -35,6 +37,8 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     @if ($view == 'users')
         <script src="{{ asset('js/admin/usersAdmin.js') }}"></script>
+    @elseif($view == 'elections')
+        <script src="{{ asset('js/admin/electionsAdmin.js') }}"></script>
     @endif
     <script src="{{ asset('js/admin/dashboardAdmin.js') }}"></script>
 </body>
