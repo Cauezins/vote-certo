@@ -70,7 +70,7 @@
                 </thead>
                 <tbody id="tbodyTableUsers">
                     @foreach ($dataItems as $item)
-                        <tr>
+                        <tr onclick="document.location.href = '/admin/election/{{$item['id']}}'">
                             <td>{{ $item['id'] }}</td>
                             <td>{{ $item['title'] }}</td>
                             <td>{{ $item['start_date'] }}</td>

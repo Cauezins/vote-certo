@@ -19,7 +19,12 @@
 </head>
 
 <body>
-    <x-side-bar-admin :position="$user->position" :view="$view" :dataElections="$dataElections"/>
+    <x-side-bar-admin
+        :position="$user->position"
+        :view="$view"
+        :dataElections="$dataElections"
+        :idElection="$view == 'election' ? $idElection : null"
+    />
 
     <!-- Conteúdo principal -->
     @if ($view == 'dashboard')
@@ -28,6 +33,9 @@
         <x-users-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :data="$dataUsers" />
     @elseif($view == 'elections')
         <x-elections-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :data="$dataElections"/>
+    @elseif($view == 'election')
+    <p>{{$idElection}}</p>
+        <x-election-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :idElection="$idElection"/>
     @endif
 
     <!-- Bootstrap JS -->
@@ -35,12 +43,14 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="{{ asset('js/admin/app.js') }}"></script>
+    <script src="{{ asset('js/admin/sidebar.js') }}"></script>
     @if ($view == 'users')
         <script src="{{ asset('js/admin/usersAdmin.js') }}"></script>
     @elseif($view == 'elections')
         <script src="{{ asset('js/admin/electionsAdmin.js') }}"></script>
     @endif
-    <script src="{{ asset('js/admin/dashboardAdmin.js') }}"></script>
+
 </body>
 
 </html>

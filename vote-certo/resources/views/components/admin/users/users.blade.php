@@ -42,7 +42,7 @@
         </div>
 
         <!-- Conteúdo da dashboard -->
-        <div class="row mt-4">
+        <div class="row mt-4" style="--bs-gutter-x: 0;">
             <div class="d-flex justify-content-end">
                 <button class="btn btn-dark criar-item" style="padding: 5px 13px 10px 13px;" data-image="{{ Storage::url('profile_images/image_default.jpg') }}"><i
                         class="bi bi-person-plus-fill"></i></button>
@@ -53,7 +53,7 @@
 
         </div>
 
-        <div class="row mt-3 tableCustom">
+        <div class="row mt-3 tableCustom" style="--bs-gutter-x: 0;">
             {{-- modal --}}
             <x-modal-delete-user-admin />
             <!-- HTML da Tabela -->

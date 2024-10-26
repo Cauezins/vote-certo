@@ -24,6 +24,9 @@ Route::group(['middleware' => ['web', CheckJwtToken::class]], function () {
     Route::get('/admin/elections', function (ElectionsController $electionsController) {
         return $electionsController->showView('elections');
     });
+    Route::get('/admin/election/{id}', function ($id, ElectionsController $electionsController) {
+        return $electionsController->showView('election', $id);
+    });
 
 
     Route::get('/admin/login', function () {

@@ -201,8 +201,7 @@ $(document).ready(function () {
 });
 
 function updateTable() {
-    $("#example").DataTable().destroy();
-    $("#tbodyTableUsers").html("");
+    // Fazer uma requisição para obter os dados da API
     $.ajax({
         url: "/api/admin", // URL da sua API que retorna os dados
         method: "GET",
@@ -210,40 +209,40 @@ function updateTable() {
             Authorization: "Bearer " + getCookie("jwt_token"),
         },
         success: function (response) {
+            // Atualizar os dados da tabela de forma fluida
+            let table = $("#example").DataTable();
 
+            // Limpar dados antigos da tabela sem destruir a instância
+            table.clear();
+
+            // Adicionar novos dados
             response.forEach((item) => {
-                addRowToTable(item);
+                table.row.add([
+                    ` <img src="/storage/${item.img_profile}" id="table-image-preview" alt="">`,
+                    item.id,
+                    item.name,
+                    item.email,
+                    getPositionBadge(item.position),
+                    `
+            <div class="dropdown">
+                <i class="bi bi-three-dots-vertical" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu" style="z-index: 4" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item edit-item" data-id="${item.id}"
+                            data-name="${item.name}" data-email="${item.email}"
+                            data-position="${item.position}"
+                            data-image="/storage/${item.img_profile}">Editar</a></li>
+                    <li><a class="dropdown-item delete-item" href="#"
+                            data-id="${item.id}"
+                            data-name="${item.name}">Excluir</a></li>
+                </ul>
+            </div>
+        `,
+                ]);
             });
-            // Reinicializar o DataTable
 
-            $("#example").DataTable({
-                columnDefs: [
-                    {
-                        width: "60px",
-                        targets: 0,
-                        className: "text-center align-middle",
-                    }, // Define a largura da primeira coluna (imagem)
-                    {
-                        width: "60px",
-                        targets: 1,
-                        className: "text-center align-middle",
-                    }, // Largura da coluna ID
-                    { width: "200px", targets: 2 }, // Largura da coluna Nome
-                    { width: "250px", targets: 3 }, // Largura da coluna Email
-                    {
-                        width: "150px",
-                        targets: 4,
-                        className: "text-center align-middle",
-                    }, // Largura da coluna Cargo
-                    {
-                        width: "50px",
-                        targets: 5,
-                        className: "text-center align-middle",
-                    }, // Largura da coluna de ações
-                ],
-                autoWidth: false, // Desabilita o ajuste automático de largura
-                scrollX: true, // Habilita a rolagem horizontal caso necessário
-            });
+            // Desenhar a tabela com os novos dados
+            table.draw(false);
         },
         error: function (error) {
             console.log("Erro ao buscar dados:", error);

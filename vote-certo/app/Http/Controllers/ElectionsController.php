@@ -21,14 +21,20 @@ class ElectionsController
     }
 
 
-    public function showView($view)
+    public function showView($view, $idElection = null)
     {
         $id = $_COOKIE['user_id'];
         $user = Users::find($id);  // Busca o usuário pelo ID
 
         if ($user) {
-            $dataElections = self::getElectionsByPermission($user->id,$user->position);
-            return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections]);
+            if($view == 'elections'){
+                $dataElections = self::getElectionsByPermission($user->id,$user->position);
+                return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections]);
+            }else if($view == 'election'){
+                $dataElections = self::getElectionsByPermission($user->id,$user->position);
+                return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections, 'idElection' => $idElection]);
+            }
+
         } else {
             // Caso não encontre o usuário, redireciona ou retorna um erro
             return redirect('/admin/login');

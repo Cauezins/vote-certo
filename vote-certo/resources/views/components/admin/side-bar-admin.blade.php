@@ -35,8 +35,8 @@
          <div style="display: none" data-target="#dropdown-elections">
              <ul class="sub-nav">
                 @foreach($dataElections as $item)
-                 <li class="sub-nav-item pt-2">
-                     <div class="sub-nav-link d-flex justify-content-between">
+                 <li class="sub-nav-item pt-2" onclick="document.location.href = '/admin/election/{{$item['id']}}'">
+                     <div class="sub-nav-link d-flex justify-content-between @if ($item['id'] == $idElec) active @endif">
                          {{$item['title']}}
                      </div>
                  </li>
