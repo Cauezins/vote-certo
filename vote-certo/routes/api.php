@@ -5,9 +5,19 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ElectionsUsersController;
 use App\Http\Controllers\ElectionsController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Crypt;
+
 
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::middleware('auth:api')->get('/login/{token}', [AuthController::class, 'show']);
+
+Route::middleware('auth:api')->get('/api/get-encrypted-id/{id}', function ($id) {
+    $encryptedId = Crypt::encryptString($id);
+    return response()->json(['encryptedId' => $encryptedId]);
+});
+
 
 Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
 

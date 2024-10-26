@@ -52,19 +52,24 @@ function getCookie(name) {
     return cookie[name];
 }
 
-function logout() {
-    $.ajax({
-        method: "POST",
-        url: "/api/logout",
-        headers: {
-            Authorization: "Bearer " + getCookie("jwt_token"),
-        },
-        success: (e) => {
-            document.cookie =
-                "jwt_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-            document.cookie =
-                "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-            window.location.reload();
-        },
+async function getDataUser(token) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `/api/login/${token}`,
+            method: 'GET',
+            headers: {
+                Authorization: "Bearer " + getCookie("user_token"),
+            },
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (error) {
+                console.log('Error fetching encrypted ID:', error);
+                reject(error);
+            }
+        });
     });
 }
+
+
+

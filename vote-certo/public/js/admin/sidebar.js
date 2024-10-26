@@ -14,7 +14,7 @@ $('#dropdown-elections').on('click', () => {
 $(document).ready(function () {
     // Expressão regular para verificar a URL
     var path = window.location.pathname;
-    var regex = /^\/admin\/election\/\d+$/;
+    var regex = /^\/admin\/election\/.+$/;
 
     if (regex.test(path)) {
         // Caso a URL corresponda ao padrão, clique no dropdown

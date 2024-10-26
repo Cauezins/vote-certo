@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Facades\Crypt;
+@endphp
 <div class="content" id="content">
     <x-nav-profile-admin :name="$name" :image_profile="$imageProfile" />
 
@@ -5,7 +8,7 @@
         <div class="my-3">
             Home / Eleiçoes
         </div>
-        <div class="row mt-4">
+        <div class="row mt-4" style="--bs-gutter-x: 0;">
             <!-- Cards -->
             <div class="col-md-3">
                 <div class="card">
@@ -53,7 +56,7 @@
 
         </div>
 
-        <div class="row mt-3 tableCustom">
+        <div class="row mt-3 tableCustom p-4" style="--bs-gutter-x: 0;">
             {{-- modal --}}
             <x-modal-delete-user-admin />
             <!-- HTML da Tabela -->
@@ -70,7 +73,7 @@
                 </thead>
                 <tbody id="tbodyTableUsers">
                     @foreach ($dataItems as $item)
-                        <tr onclick="document.location.href = '/admin/election/{{$item['id']}}'">
+                        <tr onclick="document.location.href = '/admin/election/{{ Crypt::encryptString($item['id']) }}'">
                             <td>{{ $item['id'] }}</td>
                             <td>{{ $item['title'] }}</td>
                             <td>{{ $item['start_date'] }}</td>

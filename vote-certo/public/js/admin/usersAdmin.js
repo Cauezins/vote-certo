@@ -59,7 +59,7 @@ $(document).ready(function () {
             processData: false, // Evita que o jQuery processe os dados
             contentType: false, // Impede que o jQuery defina o Content-Type automaticamente
             headers: {
-                Authorization: "Bearer " + getCookie("jwt_token"),
+                Authorization: "Bearer " + getCookie("user_token"),
             },
             data: formData,
             success: (response) => {
@@ -83,9 +83,10 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on("submit", "#formModalEditUser", function (e) {
+    $(document).on("submit", "#formModalEditUser",async function (e) {
         e.preventDefault();
-        var idUser = getCookie('user_id');
+        const userData = await getDataUser(getCookie('user_token'));
+        var idUser = userData.id;
         var itemId = $("#itemId").val();
         var data = document.getElementById("formModalEditUser");
         var formData = new FormData(data);
@@ -97,7 +98,7 @@ $(document).ready(function () {
             processData: false, // Evita que o jQuery processe os dados
             contentType: false, // Impede que o jQuery defina o Content-Type automaticamente
             headers: {
-                Authorization: "Bearer " + getCookie("jwt_token"),
+                Authorization: "Bearer " + getCookie("user_token"),
             },
             data: formData,
             success: (response) => {
@@ -186,7 +187,7 @@ $(document).ready(function () {
             url: "/api/admin/" + itemId, // Ajuste a URL conforme necessário
             type: "DELETE",
             headers: {
-                Authorization: "Bearer " + getCookie("jwt_token"),
+                Authorization: "Bearer " + getCookie("user_token"),
             },
             success: function (response) {
                 updateTable()
@@ -206,7 +207,7 @@ function updateTable() {
         url: "/api/admin", // URL da sua API que retorna os dados
         method: "GET",
         headers: {
-            Authorization: "Bearer " + getCookie("jwt_token"),
+            Authorization: "Bearer " + getCookie("user_token"),
         },
         success: function (response) {
             // Atualizar os dados da tabela de forma fluida

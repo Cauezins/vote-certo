@@ -31,9 +31,10 @@ $(document).ready(function () {
 
     // Adiciona evento de clique na div para simular o clique no input file
 
-    $(document).on("submit", "#formModalCreateElection", function (e) {
+    $(document).on("submit", "#formModalCreateElection", async function (e) {
         e.preventDefault();
-        var idUser = getCookie('user_id');
+        const userData = await getDataUser(getCookie('user_token'));
+        var idUser = userData.id;
         var data = document.getElementById("formModalCreateElection");
         var formData = new FormData(data);
         formData.append('creator_id', idUser);
@@ -43,7 +44,7 @@ $(document).ready(function () {
             processData: false, // Evita que o jQuery processe os dados
             contentType: false, // Impede que o jQuery defina o Content-Type automaticamente
             headers: {
-                Authorization: "Bearer " + getCookie("jwt_token"),
+                Authorization: "Bearer " + getCookie("user_token"),
             },
             data: formData,
             success: (response) => {
@@ -78,7 +79,7 @@ function updateTable() {
         url: "/api/admin", // URL da sua API que retorna os dados
         method: "GET",
         headers: {
-            Authorization: "Bearer " + getCookie("jwt_token"),
+            Authorization: "Bearer " + getCookie("user_token"),
         },
         success: function (response) {
 

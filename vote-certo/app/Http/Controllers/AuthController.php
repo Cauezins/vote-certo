@@ -10,7 +10,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class AuthController extends Controller
 {
     // Método para login
-   // Método para login
+    // Método para login
     public function login(Request $request)
     {
         // Validação das credenciais
@@ -27,23 +27,32 @@ class AuthController extends Controller
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-
-            // Obtém o usuário autenticado usando o token
-            $user = JWTAuth::user();
-
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not create token'], 500);
         }
 
-        return $this->respondWithToken($token, $user->id);
+        return $this->respondWithToken($token);
+    }
+
+    public function show($token)
+    {
+        try {
+            $user = JWTAuth::setToken($token)->authenticate();
+            if ($user) {
+                return response()->json($user, 200);
+            } else {
+                return response()->json(['error' => 'Not exists token'], 400);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Not exists token'], 400);
+        }
     }
 
 
     // Método para retornar o token JWT
-    protected function respondWithToken($token, $id_user)
+    protected function respondWithToken($token)
     {
         return response()->json([
-            'user_id' => $id_user,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => config('jwt.ttl') * 60 // O TTL deve ser retornado em segundos

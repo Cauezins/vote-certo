@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Facades\Crypt;
+@endphp
  <!-- Sidebar -->
  <nav class="sidebar d-flex flex-column p-3" id="sidebarMenu">
      <button class="close-btn btn btn-link" id="closeSidebar">✖</button>
@@ -35,7 +38,7 @@
          <div style="display: none" data-target="#dropdown-elections">
              <ul class="sub-nav">
                 @foreach($dataElections as $item)
-                 <li class="sub-nav-item pt-2" onclick="document.location.href = '/admin/election/{{$item['id']}}'">
+                 <li class="sub-nav-item pt-2" onclick="document.location.href = '/admin/election/{{ Crypt::encryptString($item['id']) }}'">
                      <div class="sub-nav-link d-flex justify-content-between @if ($item['id'] == $idElec) active @endif">
                          {{$item['title']}}
                      </div>

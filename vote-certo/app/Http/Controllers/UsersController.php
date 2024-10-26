@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Elections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Users;
 
@@ -97,8 +98,8 @@ class UsersController
 
     public function showView($view)
     {
-        $id = $_COOKIE['user_id'];
-        $user = Users::find($id);  // Busca o usuário pelo ID
+        $token = $_COOKIE['user_token'];
+        $user = JWTAuth::setToken($token)->authenticate();
 
         if ($user) {
             // Passa o objeto User diretamente para a view

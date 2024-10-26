@@ -5,7 +5,7 @@
         <div class="my-3">
             Home / Usuarios
         </div>
-        <div class="row mt-4">
+        <div class="row mt-4" style="--bs-gutter-x: 0;">
             <!-- Cards -->
             <div class="col-md-3">
                 <div class="card">
@@ -53,7 +53,7 @@
 
         </div>
 
-        <div class="row mt-3 tableCustom" style="--bs-gutter-x: 0;">
+        <div class="row mt-3 tableCustom p-4" style="--bs-gutter-x: 0;">
             {{-- modal --}}
             <x-modal-delete-user-admin />
             <!-- HTML da Tabela -->

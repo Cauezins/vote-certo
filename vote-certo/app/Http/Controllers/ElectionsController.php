@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Exception;
 use App\Models\Elections;
 use App\Models\ElectionUsers;
 use App\Models\Users;
@@ -15,7 +18,18 @@ class ElectionsController
         if ($position == 99 || $position == 50) {
             $data = Elections::all();
         } else {
-            $data = Elections::leftJoin('election_users', 'elections.id', '=', 'election_users.election_id')->where('election_users.user_id', $idUser)->orWhere('elections.creator_id', $idUser)->get();
+            $data = Elections::where('elections.creator_id', $idUser)->get();
+        }
+        return $data;
+    }
+
+    public static function getElectionByPermission($idUser, $position, $idElection)
+    {
+        $data = "";
+        if ($position == 99 || $position == 50) {
+            $data = Elections::where('elections.id', $idElection)->first();
+        } else {
+            $data = Elections::where('elections.id', $idElection)->Where('elections.creator_id', $idUser)->first();
         }
         return $data;
     }
@@ -23,20 +37,29 @@ class ElectionsController
 
     public function showView($view, $idElection = null)
     {
-        $id = $_COOKIE['user_id'];
-        $user = Users::find($id);  // Busca o usuário pelo ID
+        try {
+            $token = $_COOKIE['user_token'];
+            $user = JWTAuth::setToken($token)->authenticate();
 
-        if ($user) {
-            if($view == 'elections'){
-                $dataElections = self::getElectionsByPermission($user->id,$user->position);
-                return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections]);
-            }else if($view == 'election'){
-                $dataElections = self::getElectionsByPermission($user->id,$user->position);
-                return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections, 'idElection' => $idElection]);
+            if ($user) {
+                $dataElections = self::getElectionsByPermission($user->id, $user->position);
+                if ($view == 'elections') {
+                    return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections]);
+                } else if ($view == 'election') {
+                    try {
+                        $idElection = Crypt::decryptString($idElection);
+                        $dataElection = self::getElectionByPermission($user->id, $user->position, $idElection);
+                    } catch (Exception $e) {
+                        $dataElection = 'error';
+                    }
+
+                    return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections, 'dataElection' => $dataElection ]);
+                }
+            } else {
+                // Caso não encontre o usuário, redireciona ou retorna um erro
+                return redirect('/admin/login');
             }
-
-        } else {
-            // Caso não encontre o usuário, redireciona ou retorna um erro
+        } catch (Exception $e) {
             return redirect('/admin/login');
         }
     }

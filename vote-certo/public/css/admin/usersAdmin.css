@@ -51,15 +51,6 @@
                         z-index: 1;
                         /* Garante que a mensagem fique acima da imagem */
                     }
-
-                    /*ajuste table*/
-                    .tableCustom{
-                        box-shadow: 0 0 10px #dbdbdb;
-                        background-color: white;
-                        border-radius: 12px;
-                        margin-left: 2px;
-                    }
-
                     /*table image preview*/
                     #table-image-preview{
                         width: 30px;

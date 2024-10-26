@@ -15,12 +15,12 @@ class ElectionAdmin extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($name = null, $position = null, $image_profile = null, $idElection = null)
+    public function __construct($name = null, $position = null, $image_profile = null, $dataElection = null)
     {
         $this->name = $name;
         $this->position = $position;
         $this->imageProfile = $image_profile;
-        $this->idEle = $idElection;
+        $this->idEle = $dataElection;
     }
 
     /**

@@ -31,8 +31,7 @@ $("#login-form").on("submit", (e) => {
             ).toUTCString(); // Cookie válido por 1 hora
 
             // Armazena o token JWT e o ID do usuário em cookies
-            document.cookie = `jwt_token=${response.access_token}; path=/; expires=${expires};`; // sem HttpOnly
-            document.cookie = `user_id=${response.user_id}; path=/; expires=${expires};`;
+            document.cookie = `user_token=${response.access_token}; path=/; expires=${expires};`; // sem HttpOnly
 
             showStatusMessage(
                 "success",

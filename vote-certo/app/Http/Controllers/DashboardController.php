@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Users;
 use App\Http\Controllers\ElectionsController;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DashboardController
 {
     public function showView()
     {
-        $id = $_COOKIE['user_id'];
-        $user = Users::find($id);  // Busca o usuário pelo ID
+        $token = $_COOKIE['user_token'];
+        $user = JWTAuth::setToken($token)->authenticate();
 
 
         if ($user) {
