@@ -6,28 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
+    public function up() {
         Schema::create('elections', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 200);
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->foreignId('creator_id')->constrained('users');
-            $table->enum('category', ['Public', 'Private', 'Corporate']);
-            $table->boolean('public_results')->default(false);
+            $table->id(); // unsignedBigInteger
+            $table->foreignId('created_id')->constrained('users')->onUpdate('no action')->onDelete('no action');
+            $table->text('title');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+    public function down() {
         Schema::dropIfExists('elections');
     }
 };
