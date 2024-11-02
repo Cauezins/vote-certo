@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Crypt;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
 use App\Models\Elections;
+use App\Models\ElectionSetting;
 use App\Models\ElectionUsers;
 use App\Models\Users;
 
@@ -16,9 +17,24 @@ class ElectionsController
     {
         $data = "";
         if ($position == 99 || $position == 50) {
-            $data = Elections::all();
+            $data = Elections::select(
+                'elections.id',
+                'elections.created_id',
+                'elections.title',
+                'elections.start_date',
+                'elections.end_date',
+                'elections.created_at as election_created_at',
+                'elections.updated_at as election_updated_at',
+                'election_setting.election_id as setting_election_id',
+                'election_setting.public_results',
+                'election_setting.category',
+                'election_setting.send_email',
+                'election_setting.start_automatic',
+                'election_setting.start'
+            )
+            ->leftJoin('election_setting', 'elections.id', '=', 'election_setting.election_id')->get();
         } else {
-            $data = Elections::where('elections.creator_id', $idUser)->get();
+            $data = Elections::leftJoin('election_setting', 'elections.id', '=', 'election_setting.election_id')->where('elections.creator_id', $idUser)->get();
         }
         return $data;
     }
@@ -27,9 +43,23 @@ class ElectionsController
     {
         $data = "";
         if ($position == 99 || $position == 50) {
-            $data = Elections::where('elections.id', $idElection)->first();
+            $data = Elections::select(
+                'elections.id',
+                'elections.created_id',
+                'elections.title',
+                'elections.start_date',
+                'elections.end_date',
+                'elections.created_at as election_created_at',
+                'elections.updated_at as election_updated_at',
+                'election_setting.election_id as setting_election_id',
+                'election_setting.public_results',
+                'election_setting.category',
+                'election_setting.send_email',
+                'election_setting.start_automatic',
+                'election_setting.start'
+            )->leftJoin('election_setting', 'elections.id', '=', 'election_setting.election_id')->where('elections.id', $idElection)->first();
         } else {
-            $data = Elections::where('elections.id', $idElection)->Where('elections.creator_id', $idUser)->first();
+            $data = Elections::leftJoin('election_settings', 'elections.id', '=', 'election_settings.election_id')->where('elections.id', $idElection)->where('elections.creator_id', $idUser)->first();
         }
         return $data;
     }
@@ -53,7 +83,17 @@ class ElectionsController
                         $dataElection = 'error';
                     }
 
-                    return view('admin.admin', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections, 'dataElection' => $dataElection ]);
+                    return view('admin.elections.election', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections, 'dataElection' => $dataElection ]);
+                }else if($view == 'election-setting'){
+                    try {
+                        $idElection = Crypt::decryptString($idElection);
+                        $dataElection = self::getElectionByPermission($user->id, $user->position, $idElection);
+                    } catch (Exception $e) {
+                        echo "caiu aq";
+                        $dataElection = 'error';
+                    }
+
+                    return view('admin.elections.election-setting', ['view' => $view, 'user' => $user, 'dataElections' => $dataElections, 'dataElection' => $dataElection ]);
                 }
             } else {
                 // Caso não encontre o usuário, redireciona ou retorna um erro
@@ -100,12 +140,15 @@ class ElectionsController
             'title' => 'required|max:255',
             'start_date' => 'nullable|max:255',
             'end_date' => 'nullable|max:255',
-            'creator_id' => 'required|max:255',
+            'created_id' => 'required|max:255',
             'category' => 'required|max:255',
             'public_results' => 'required|max:1',
         ]);
 
-        $item = Elections::create($validadeData);
+        $item = Elections::create(['title' => $validadeData['title'], 'start_date' => $validadeData['start_date'], 'end_date' => $validadeData['end_date'], 'created_id' => $validadeData['created_id']]);
+        if($item){
+            $itemSetting = ElectionSetting::create(['category' => $validadeData['category'], 'public_results' => $validadeData['public_results'], 'election_id' => $item->id]);
+        }
 
         return response()->json($item, 201);
     }

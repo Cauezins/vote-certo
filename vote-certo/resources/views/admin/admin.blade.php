@@ -21,7 +21,7 @@
 
 <body>
     @php
-        if ($view === 'election') {
+        if ($view === 'election' || $view === 'election-setting') {
             if (isset($dataElection->id)) {
                 $idElection = $dataElection->id;
             } else {
@@ -43,6 +43,8 @@
         <x-elections-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :data="$dataElections" />
     @elseif($view == 'election')
         <x-election-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :dataElection="$dataElection" />
+    @elseif($view == 'election-setting')
+        <x-election-setting-admin :name="$user->name" :position="$user->position" :image_profile="$user->img_profile" :dataElection="$dataElection" />
     @endif
 
     <!-- Bootstrap JS -->

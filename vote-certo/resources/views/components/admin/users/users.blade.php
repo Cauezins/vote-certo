@@ -7,44 +7,69 @@
         </div>
         <div class="row mt-4" style="--bs-gutter-x: 0;">
             <!-- Cards -->
-            <div class="col-md-3">
+            <div class="col-xl-3 col-sm-6 col-12">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Usuários Ativos</h5>
-                        <p class="card-text">1,234</p>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="icon-pencil primary font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h3>278</h3>
+                                    <span>New Posts</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-xl-3 col-sm-6 col-12">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Novos Cadastros</h5>
-                        <p class="card-text">567</p>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="media-body text-left">
+                                    <h3 class="success">156</h3>
+                                    <span>New Clients</span>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="icon-user success font-large-2 float-right"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-xl-3 col-sm-6 col-12">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Vendas</h5>
-                        <p class="card-text">R$ 12,345</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Comentários</h5>
-                        <p class="card-text">89</p>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="media-body text-left">
+                                    <h3 class="success">64.89 %</h3>
+                                    <span>Bounce Rate</span>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="icon-cup success font-large-2 float-right"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-1 mb-0" style="height: 7px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 60%"
+                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+
         <!-- Conteúdo da dashboard -->
         <div class="row mt-4" style="--bs-gutter-x: 0;">
             <div class="d-flex justify-content-end">
-                <button class="btn btn-dark criar-item" style="padding: 5px 13px 10px 13px;" data-image="{{ Storage::url('profile_images/image_default.jpg') }}"><i
+                <button class="btn btn-dark criar-item" style="padding: 5px 13px 10px 13px;"
+                    data-image="{{ Storage::url('profile_images/image_default.jpg') }}"><i
                         class="bi bi-person-plus-fill"></i></button>
             </div>
 
@@ -57,7 +82,7 @@
             {{-- modal --}}
             <x-modal-delete-user-admin />
             <!-- HTML da Tabela -->
-            <table id="example" class="table table-striped nowrap" style="width:100%">
+            <table id="example" class="table nowrap dataTable" style="width:100%">
                 <thead>
                     <tr>
                         <th></th>
@@ -89,19 +114,14 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="dropdown">
-                                    <i class="bi bi-three-dots-vertical" id="dropdownMenuButton"
-                                        data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                    <ul class="dropdown-menu" style="z-index: 4" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item edit-item" data-id="{{ $item['id'] }}"
-                                                data-name="{{ $item['name'] }}" data-email="{{ $item['email'] }}"
-                                                data-position="{{ $item['position'] }}"
-                                                data-image="{{ Storage::url($item['img_profile']) }}">Editar</a></li>
-                                        <li><a class="dropdown-item delete-item" href="#"
-                                                data-id="{{ $item['id'] }}"
-                                                data-name="{{ $item['name'] }}">Excluir</a></li>
-                                    </ul>
-                                </div>
+                                <button class="btn btn-sm btn-light me-2 edit-item" data-id="{{ $item['id'] }}"
+                                    data-name="{{ $item['name'] }}" data-email="{{ $item['email'] }}"
+                                    data-position="{{ $item['position'] }}"
+                                    data-image="{{ Storage::url($item['img_profile']) }}">
+                                    <i class="bi bi-pencil-square"></i></button>
+
+                                <button class="btn btn-sm btn-light delete-item" data-id="{{ $item['id'] }}"
+                                    data-name="{{ $item['name'] }}"><i class="bi bi-trash-fill"></i></i></button>
                             </td>
                         </tr>
                     @endforeach

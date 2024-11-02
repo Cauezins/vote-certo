@@ -40,6 +40,9 @@ $(document).ready(function () {
                 className: "text-center align-middle",
             }, // Largura da coluna de ações
         ],
+        language: {
+            url:"https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+          },
         autoWidth: false, // Desabilita o ajuste automático de largura
         scrollX: true, // Habilita a rolagem horizontal caso necessário
     });

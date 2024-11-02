@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Elections;
+use App\Models\UserSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -56,7 +56,6 @@ class UsersController
             'name' => 'required|max:255',
             'email' => 'required|max:255',
             'password' => 'required|max:255',
-            'position' => 'required|max:255',
             'img_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar apenas se for uma imagem
         ]);
 
@@ -74,8 +73,13 @@ class UsersController
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $item = Users::create($validatedData);
+        if($item){
+            $itemSetting = UserSetting::create(['user_id' => $item->id, 'max_create_election' => 2]);
+        }else{
+            $itemSetting= null;
+        }
 
-        return response()->json($item, 201);
+        return response()->json(['user' => $item, 'user_setting' => $itemSetting], 201);
     }
 
     //depois comenta
@@ -309,7 +313,9 @@ class UsersController
     {
         $item = Users::find($id);
 
+
         if ($item) {
+            $itemSetting = UserSetting::where('user_id', $item->id);
             // Verifica se a imagem existe e exclui
             if ($item->img_profile != 'profile_images/image_default.jpg') {
                 $filePath = storage_path('app/public/' . $item->img_profile); // Constrói o caminho completo
@@ -322,7 +328,13 @@ class UsersController
                 }
             }
 
-            $item->delete();
+            if($itemSetting){
+                $itemSetting->delete();
+                $item->delete();
+            }else {
+                $item->delete();
+            }
+
 
             return response()->json(['message' => 'Item deleted successfully'], 204);
         } else {

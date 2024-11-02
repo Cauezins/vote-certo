@@ -1,0 +1,75 @@
+/* Estilo para switches maiores */
+.form-check-input.large-switch {
+    width: 3rem;
+    height: 1.5rem;
+}
+
+.form-check-input.large-switch:checked {
+    background-color: #198754;
+    /* Cor do switch ao ser ativado */
+}
+
+.form-check-label {
+    padding-left: 1rem;
+}
+
+
+.preview-container {
+    min-height: 400px;
+}
+
+.preview-login-screen {
+    transform: scale(0.8);
+    transform-origin: top center;
+}
+
+.form-control-color {
+    width: 60px;
+}
+
+/* Estilo para inputs de cor maiores */
+.form-control-color::-webkit-color-swatch {
+    border-radius: 4px;
+    border: none;
+}
+
+.form-control-color::-moz-color-swatch {
+    border-radius: 4px;
+    border: none;
+}
+
+ /* Previous styles remain the same */
+
+ .preview-nav {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.preview-nav .nav-link {
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.preview-navbar {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.large-switch {
+    width: 3rem;
+    height: 1.5rem;
+}
+
+.form-range {
+    height: 1.5rem;
+    padding: 0;
+}
+
+.form-range::-webkit-slider-thumb {
+    background: #0d6efd;
+}
+
+.form-range::-moz-range-thumb {
+    background: #0d6efd;
+}

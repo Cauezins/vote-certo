@@ -4,3 +4,113 @@
     border-radius: 12px;
     margin-left: 2px;
 }
+
+/* Estilo global para DataTables */
+.dataTables_wrapper {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+}
+
+/* Estilização da tabela */
+table.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Cabeçalho da tabela */
+table.dataTable thead th {
+    background-color: #f0f0f0; /* Cor de fundo do cabeçalho */
+    color: #333; /* Cor do texto */
+    text-align: left;
+    padding: 12px 15px;
+    font-size: 1em;
+    border-bottom: 2px solid #ccc; /* Linha de separação */
+}
+
+/* Linhas do cabeçalho da tabela */
+table.dataTable thead th.sorting,
+table.dataTable thead th.sorting_asc,
+table.dataTable thead th.sorting_desc {
+    cursor: pointer;
+}
+
+/* Estilo das linhas da tabela */
+table.dataTable tbody tr {
+    background-color: #ffffff; /* Cor de fundo das linhas */
+    transition: background-color 0.3s ease;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #f9f9f9; /* Cor ao passar o mouse */
+}
+
+/* Células da tabela */
+table.dataTable tbody td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd; /* Bordas entre as linhas */
+}
+
+/* Estilização das páginas */
+.dataTables_paginate {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.dataTables_paginate .paginate_button {
+    padding: 10px 15px;
+    border: 1px solid #ccc; /* Borda dos botões */
+    border-radius: 5px;
+    margin-left: 5px;
+    background-color: #fff; /* Cor de fundo dos botões */
+    color: #333; /* Cor do texto */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background-color: #f0f0f0; /* Cor ao passar o mouse nos botões */
+}
+
+/* Estilo da barra de pesquisa */
+.dataTables_filter {
+    margin: 20px 0;
+}
+
+.dataTables_filter label {
+    font-size: 1em;
+}
+
+.dataTables_filter input {
+    border: 1px solid #ccc; /* Borda do input */
+    border-radius: 5px;
+    padding: 8px;
+    margin-left: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.dataTables_filter input:focus {
+    border-color: #888; /* Cor da borda ao focar */
+}
+
+/* Estilo da barra de informações */
+.dataTables_info {
+    margin-top: 20px;
+    color: #666; /* Cor do texto */
+}
+
+/* Estilo do botão de adicionar */
+.add-button {
+    background-color: #007BFF; /* Cor do botão */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #0056b3; /* Cor ao passar o mouse no botão */
+}

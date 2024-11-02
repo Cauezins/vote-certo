@@ -6,17 +6,21 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class NavProfileAdmin extends Component
+class ElectionSettingAdmin extends Component
 {
     public $name;
+    public $position;
     public $imageProfile;
+    public $idEle;
     /**
      * Create a new component instance.
      */
-    public function __construct($name = null, $image_profile = null)
+    public function __construct($name = null, $position = null, $image_profile = null, $dataElection = null)
     {
         $this->name = $name;
+        $this->position = $position;
         $this->imageProfile = $image_profile;
+        $this->idEle = $dataElection;
     }
 
     /**
@@ -24,6 +28,6 @@ class NavProfileAdmin extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.nav-profile-admin');
+        return view('components.admin.elections.election-setting');
     }
 }

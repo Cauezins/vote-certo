@@ -37,7 +37,9 @@ $(document).ready(function () {
         var idUser = userData.id;
         var data = document.getElementById("formModalCreateElection");
         var formData = new FormData(data);
-        formData.append('creator_id', idUser);
+        console.log(idUser);
+
+        formData.append('created_id', idUser);
         $.ajax({
             url: "/api/elections",
             method: "POST",

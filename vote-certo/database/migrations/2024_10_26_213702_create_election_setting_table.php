@@ -11,10 +11,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('election_id');
             $table->boolean('public_results');
-            $table->enum('category', ['public', 'private', 'corporate']); // ajuste categorias conforme necessário
-            $table->boolean('send_email');
-            $table->boolean('start_automatic');
-            $table->boolean('start');
+            $table->enum('category', ['public', 'private', 'corporate'])->default('public'); // ajuste categorias conforme necessário
+            $table->boolean('send_email')->default(0);
+            $table->boolean('start_automatic')->default(0);
+            $table->boolean('start')->default(0);
             $table->timestamps();
 
             $table->foreign('election_id')->references('id')->on('elections')->onUpdate('no action')->onDelete('no action');

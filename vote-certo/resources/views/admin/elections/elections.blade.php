@@ -73,6 +73,7 @@ use Illuminate\Support\Facades\Crypt;
                 </thead>
                 <tbody id="tbodyTableUsers">
                     @foreach ($dataItems as $item)
+                    <p>{{$item}}</p>
                         <tr onclick="document.location.href = '/admin/election/{{ Crypt::encryptString($item['id']) }}'">
                             <td>{{ $item['id'] }}</td>
                             <td>{{ $item['title'] }}</td>
